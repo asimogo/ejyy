@@ -110,7 +110,7 @@ function PcModule(appRouter: KoaRouter) {
                 }
             }
 
-            const vs = validatorService(ctx, validator);
+            const vs = validatorService(ctx, validator || {});
 
             if (!vs.success) {
                 return (ctx.body = {
@@ -119,7 +119,7 @@ function PcModule(appRouter: KoaRouter) {
                 });
             }
 
-            await response.apply(this, [ctx, next]);
+            await response.call(null, ctx, next);
         });
 
         if (config.debug) {

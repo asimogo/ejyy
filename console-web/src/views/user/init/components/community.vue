@@ -95,7 +95,7 @@ export default {
                     { required: true, message: '请输入小区客户电话' },
                     { pattern: /^\d{11}$/, message: '请输入正确的电话号码' }
                 ],
-                banner: [{ required: true, message: '请上传小区照片' }],
+                banner: [{ required: false, message: '请上传小区照片' }], //测试期间禁用上传照片
                 access_nfc: [{ required: true, type: 'number' }],
                 access_qrcode: [{ required: true, type: 'number' }],
                 access_remote: [{ required: true, type: 'number' }],

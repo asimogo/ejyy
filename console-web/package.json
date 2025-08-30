@@ -6,8 +6,8 @@
     "url": "git+https://gitee.com/chowa/ejyy.git"
   },
   "scripts": {
-    "dev": "vue-cli-service serve",
-    "dist": "npm run iconfont && vue-cli-service build",
+    "dev": "NODE_OPTIONS='--openssl-legacy-provider' vue-cli-service serve",
+    "dist": "npm run iconfont && NODE_OPTIONS='--openssl-legacy-provider' vue-cli-service build",
     "lint": "vue-cli-service lint",
     "iconfont": "cwfont compile"
   },

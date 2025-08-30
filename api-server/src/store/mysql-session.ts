@@ -16,7 +16,7 @@ import { Session } from 'koa-session';
 const FORTY_FIVE_MINUTES = 45 * 60 * 1000;
 
 function getExpiresOn(session: Session, ttl: number): number {
-    let expiresOn = null;
+    let expiresOn: Date;
     ttl = ttl || FORTY_FIVE_MINUTES;
 
     if (session && session.cookie && session.cookie.expires) {
@@ -30,28 +30,28 @@ function getExpiresOn(session: Session, ttl: number): number {
         expiresOn = new Date(now.getTime() + ttl);
     }
 
-    return expiresOn;
+    return expiresOn.valueOf();
 }
 
 class MysqlSessionStore {
-    async get(sid: string): Promise<Session> {
+    async get(sid: string): Promise<Session | null> {
         const row = await model
             .from('ejyy_session_store')
             .where('id', sid)
             .where('expire', '>', Date.now())
             .first();
 
-        let session = <Session>null;
+        let session: Session | null = null;
 
         if (row && row.data) {
-            session = <Session>JSON.parse(row.data);
+            session = JSON.parse(row.data) as Session;
         }
 
         return session;
     }
 
     async set(sid: string, session: Session, ttl: number) {
-        let expire = getExpiresOn(session, ttl).valueOf();
+        let expire = getExpiresOn(session, ttl);
         let data = JSON.stringify(session);
 
         await model.raw(

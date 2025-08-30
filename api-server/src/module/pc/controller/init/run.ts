@@ -52,7 +52,7 @@ const PcInitRunAction = <Action>{
             },
             {
                 name: 'banner',
-                required: true,
+                required: false,
                 max: 128,
                 regex: /^\/community_banner\/[a-z0-9]{32}\.(jpg|jpeg|png)$/
             },
@@ -78,27 +78,27 @@ const PcInitRunAction = <Action>{
             },
             {
                 name: 'access_nfc',
-                required: true,
+                required: false,
                 validator: val => [TRUE, FALSE].includes(val)
             },
             {
                 name: 'access_remote',
-                required: true,
+                required: false,
                 validator: val => [TRUE, FALSE].includes(val)
             },
             {
                 name: 'access_qrcode',
-                required: true,
+                required: false,
                 validator: val => [TRUE, FALSE].includes(val)
             },
             {
                 name: 'carport_max_car',
-                required: true,
+                required: false,
                 regex: /^\d+$/
             },
             {
                 name: 'fitment_pledge',
-                required: true,
+                required: false,
                 validator: val => [TRUE, FALSE].includes(val)
             },
             {
@@ -114,17 +114,17 @@ const PcInitRunAction = <Action>{
             },
             {
                 name: 'real_name',
-                required: true,
+                required: false,
                 max: 8
             },
             {
                 name: 'idcard',
-                required: true,
-                validator: val => utils.idcard.verify(val)
+                required: false,
+                // validator: val => utils.idcard.verify(val)
             },
             {
                 name: 'avatar_url',
-                required: true,
+                required: false,
                 max: 128,
                 validator: val => /^\/avatar\/[a-z0-9]{32}|default\.(jpg|jpeg|png)$/.test(val)
             },

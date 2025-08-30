@@ -76,7 +76,7 @@ export default {
                 ],
                 avatar_url: [
                     {
-                        required: true,
+                        required: false, //测试期间暂禁用
                         pattern: /^\/avatar\/[a-z0-9]{32}\.(jpg|jpeg|png)$/,
                         message: '请上传您的头像，建议使用实拍照片'
                     }

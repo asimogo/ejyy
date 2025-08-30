@@ -68,7 +68,7 @@ function MpModule(appRouter: KoaRouter) {
                 }
             }
 
-            const vs = validatorService(ctx, validator);
+            const vs = validatorService(ctx, validator || {});
 
             if (!vs.success) {
                 return (ctx.body = {
@@ -77,7 +77,7 @@ function MpModule(appRouter: KoaRouter) {
                 });
             }
 
-            await response.apply(this, [ctx, next]);
+            await response.call(null, ctx, next);
         });
 
         if (config.debug) {

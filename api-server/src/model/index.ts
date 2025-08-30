@@ -14,7 +14,7 @@ import Knex from 'knex';
 import config from '~/config';
 
 const model = Knex({
-    client: 'mysql',
+    client: 'mysql2',
     connection: config.mysqlConfig,
     pool: {
         min: 0,

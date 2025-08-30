@@ -98,7 +98,7 @@ function generateConfig(): Config {
     let customConfig = <CustomConfig>{};
 
     try {
-        customConfig = yaml.load(fs.readFileSync(path.join(process.cwd(), '.ejyyrc'), 'utf-8'));
+        customConfig = yaml.load(fs.readFileSync(path.join(process.cwd(), '.ejyyrc'), 'utf-8')) as CustomConfig;
     } catch (e) {
         cwlog.error('未检测到配置文件，程序退出');
         process.exit();
@@ -115,7 +115,8 @@ function generateConfig(): Config {
         typeCast: (field, next) => {
             // 数据库内所有字段只要是content的都是json内容
             if (field.type === 'BLOB' && field.name === 'content') {
-                return JSON.parse(field.string());
+                const fieldValue = field.string();
+                return fieldValue ? JSON.parse(fieldValue) : null;
             }
 
             return next();
