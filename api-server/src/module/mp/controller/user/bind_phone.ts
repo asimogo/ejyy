@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
+ * | Copyright (c) 2020-2024  All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: contact@chowa.cn
+ * | Author: 
  * +----------------------------------------------------------------------
  */
 
@@ -47,12 +47,23 @@ const MpUserBindPhoneAction = <Action>{
     response: async ctx => {
         const { code, encryptedData, iv } = <RequestBody>ctx.request.body;
 
+        console.log('bind_phone request:', {
+            code: code ? 'exists' : 'missing',
+            encryptedData: encryptedData ? 'exists' : 'missing',
+            iv: iv ? 'exists' : 'missing'
+        });
+
         const phoneInfo = await wechatService.getUserMpPhone(code, iv, encryptedData);
+
+        console.log('getUserMpPhone result:', {
+            success: phoneInfo.success,
+            message: phoneInfo.success ? 'success' : phoneInfo.message
+        });
 
         if (!phoneInfo.success) {
             return (ctx.body = {
                 code: WEHCAT_MP_GET_PHONE_ERROR,
-                message: '获取手机号码失败'
+                message: phoneInfo.message || '获取手机号码失败'
             });
         }
 

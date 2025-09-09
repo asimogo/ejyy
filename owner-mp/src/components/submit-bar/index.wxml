@@ -5,9 +5,7 @@
 
     <view class="cw-submit-bar__tip">
         <cw-icon wx:if="{{ tipIcon }}" size="12px" name="{{ tipIcon }}" custom-class="cw-submit-bar__tip-icon" />
-        <view wx:if="{{ hasTip }}" class="cw-submit-bar__tip-text">
-            {{ tip }}
-        </view>
+        <view wx:if="{{ hasTip }}" class="cw-submit-bar__tip-text">{{ tip }}</view>
         <slot name="tip" />
     </view>
 

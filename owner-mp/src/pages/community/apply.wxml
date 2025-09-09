@@ -9,12 +9,8 @@
         empty="暂无申请认证记录"
     >
         <cw-list-item wx:for="{{list}}" title="{{common.number('A', item.created_at, item.id)}}" wx:key="index">
-            <cw-list-item-info label="申请小区">
-                {{item.community_name}}
-            </cw-list-item-info>
-            <cw-list-item-info wx:if="{{item.house}}" label="住宅信息">
-                {{item.house}}
-            </cw-list-item-info>
+            <cw-list-item-info label="申请小区">{{item.community_name}}</cw-list-item-info>
+            <cw-list-item-info wx:if="{{item.house}}" label="住宅信息">{{item.house}}</cw-list-item-info>
             <cw-list-item-info wx:if="{{item.carport}}" label="车位信息">{{item.carport}}</cw-list-item-info>
             <cw-list-item-info wx:if="{{item.warehouse}}" label="仓房信息">{{item.warehouse}}</cw-list-item-info>
             <cw-list-item-info wx:if="{{item.community_id}}" label="认证进度">

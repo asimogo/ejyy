@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
+ * | Copyright (c) 2020-2024  All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: contact@chowa.cn
+ * | Author: 
  * +----------------------------------------------------------------------
  */
 
@@ -23,18 +23,23 @@ export function ext(filename) {
 }
 
 export function md5(filePath) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
         wx.getFileSystemManager().readFile({
             filePath,
             success: res => {
-                const spark = new SMD5.ArrayBuffer();
-                spark.append(res.data);
-                const hexHash = spark.end(false);
-
-                resolve(hexHash);
+                try {
+                    const spark = new SMD5.ArrayBuffer();
+                    spark.append(res.data);
+                    const hexHash = spark.end(false);
+                    resolve(hexHash);
+                } catch (error) {
+                    console.error('MD5计算失败:', error);
+                    reject(error);
+                }
             },
             fail: res => {
-                console.log(res);
+                console.error('读取文件失败:', res);
+                reject(new Error('读取文件失败'));
             }
         });
     });

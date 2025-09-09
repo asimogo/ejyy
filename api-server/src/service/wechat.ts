@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
+ * | Copyright (c) 2020-2024  All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: contact@chowa.cn
+ * | Author: 
  * +----------------------------------------------------------------------
  */
 
@@ -101,6 +101,18 @@ function decode(session_key: string, iv: string, encryptedData: string) {
 }
 
 export async function getUserMpSession(js_code: string): Promise<WechatMpSessionInfoResponse> {
+    // 开发环境下使用模拟数据，避免微信AppID配置问题
+    if (config.debug && process.env.NODE_ENV === 'development') {
+        return {
+            success: true,
+            data: {
+                openid: `dev_openid_${js_code.slice(0, 8)}`,
+                session_key: 'dev_session_key_' + Date.now(),
+                unionid: `dev_unionid_${js_code.slice(0, 8)}`
+            }
+        };
+    }
+
     const res = await axios.request({
         url: 'https://api.weixin.qq.com/sns/jscode2session',
         method: 'GET',

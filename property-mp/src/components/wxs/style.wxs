@@ -4,10 +4,10 @@ var array = require('./array.wxs');
 function style(styles) {
     if (array.isArray(styles)) {
         return styles
-            .filter(function(item) {
+            .filter(function (item) {
                 return item != null && item !== '';
             })
-            .map(function(item) {
+            .map(function (item) {
                 return style(item);
             })
             .join(';');
@@ -16,10 +16,10 @@ function style(styles) {
     if ('Object' === styles.constructor) {
         return object
             .keys(styles)
-            .filter(function(key) {
+            .filter(function (key) {
                 return styles[key] != null && styles[key] !== '';
             })
-            .map(function(key) {
+            .map(function (key) {
                 return [key, [styles[key]]].join(':');
             })
             .join(';');

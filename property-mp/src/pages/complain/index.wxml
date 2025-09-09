@@ -21,31 +21,15 @@
             wx:key="index"
         >
             <cw-list-item-info label="反馈类型">
-                <block wx:if="{{item.category === 1}}">
-                    卫生
-                </block>
-                <block wx:elif="{{item.category === 2}}">
-                    噪音
-                </block>
-                <block wx:elif="{{item.category === 3}}">
-                    服务态度
-                </block>
-                <block wx:elif="{{item.category === 4}}">
-                    违建
-                </block>
-                <block wx:elif="{{item.category === 5}}">
-                    占用消防通道
-                </block>
-                <block wx:elif="{{item.category === 6}}">
-                    小区设施
-                </block>
-                <block wx:elif="{{item.category === 7}}">
-                    其他
-                </block>
+                <block wx:if="{{item.category === 1}}">卫生</block>
+                <block wx:elif="{{item.category === 2}}">噪音</block>
+                <block wx:elif="{{item.category === 3}}">服务态度</block>
+                <block wx:elif="{{item.category === 4}}">违建</block>
+                <block wx:elif="{{item.category === 5}}">占用消防通道</block>
+                <block wx:elif="{{item.category === 6}}">小区设施</block>
+                <block wx:elif="{{item.category === 7}}">其他</block>
             </cw-list-item-info>
-            <cw-list-item-info label="问题描述">
-                {{ item.description }}
-            </cw-list-item-info>
+            <cw-list-item-info label="问题描述">{{ item.description }}</cw-list-item-info>
             <cw-list-item-info label="当前进度">
                 <block wx:if="{{item.step === 2}}">
                     <cw-tag round color="#eb2f96">待确认工单</cw-tag>
@@ -57,9 +41,7 @@
                     <cw-tag round color="#52c41a">工单已完成</cw-tag>
                 </block>
             </cw-list-item-info>
-            <cw-list-item-info label="反馈时间">
-                {{ common.date(item.created_at) }}
-            </cw-list-item-info>
+            <cw-list-item-info label="反馈时间">{{ common.date(item.created_at) }}</cw-list-item-info>
         </cw-list-item>
     </cw-list>
 

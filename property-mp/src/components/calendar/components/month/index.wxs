@@ -27,7 +27,7 @@ function getDayStyle(type, index, date, rowHeight, color) {
     }
 
     return style
-        .map(function(item) {
+        .map(function (item) {
             return item.join(':');
         })
         .join(';');

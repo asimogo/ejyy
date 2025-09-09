@@ -17,15 +17,9 @@
                     title="{{common.number('MT', item.created_at, item.id)}}"
                     wx:key="index"
                 >
-                    <cw-list-item-info label="会议主题">
-                        {{ item.theme }}
-                    </cw-list-item-info>
-                    <cw-list-item-info label="会议室名称">
-                        {{ item.name }}
-                    </cw-list-item-info>
-                    <cw-list-item-info label="会议室位置">
-                        {{ item.local }}
-                    </cw-list-item-info>
+                    <cw-list-item-info label="会议主题">{{ item.theme }}</cw-list-item-info>
+                    <cw-list-item-info label="会议室名称">{{ item.name }}</cw-list-item-info>
+                    <cw-list-item-info label="会议室位置">{{ item.local }}</cw-list-item-info>
                     <cw-list-item-info label="会议时间">
                         {{ common.date(item.start_time) }}至{{ common.time(item.end_time) }}
                     </cw-list-item-info>
@@ -43,9 +37,7 @@
                             <cw-tag round color="#52c41a">已结束</cw-tag>
                         </block>
                     </cw-list-item-info>
-                    <cw-list-item-info label="预定时间">
-                        {{ common.date(item.created_at) }}
-                    </cw-list-item-info>
+                    <cw-list-item-info label="预定时间">{{ common.date(item.created_at) }}</cw-list-item-info>
                 </cw-list-item>
             </cw-list>
         </cw-tab>
@@ -65,18 +57,10 @@
                     title="{{common.number('MT', item.created_at, item.id)}}"
                     wx:key="index"
                 >
-                    <cw-list-item-info label="会议主题">
-                        {{ item.theme }}
-                    </cw-list-item-info>
-                    <cw-list-item-info label="会议室名称">
-                        {{ item.name }}
-                    </cw-list-item-info>
-                    <cw-list-item-info label="会议室位置">
-                        {{ item.local }}
-                    </cw-list-item-info>
-                    <cw-list-item-info label="会议发起人">
-                        {{ item.real_name }}
-                    </cw-list-item-info>
+                    <cw-list-item-info label="会议主题">{{ item.theme }}</cw-list-item-info>
+                    <cw-list-item-info label="会议室名称">{{ item.name }}</cw-list-item-info>
+                    <cw-list-item-info label="会议室位置">{{ item.local }}</cw-list-item-info>
+                    <cw-list-item-info label="会议发起人">{{ item.real_name }}</cw-list-item-info>
                     <cw-list-item-info label="会议时间">
                         {{ common.date(item.start_time) }}至{{ common.time(item.end_time) }}
                     </cw-list-item-info>
@@ -94,9 +78,7 @@
                             <cw-tag round color="#52c41a">已结束</cw-tag>
                         </block>
                     </cw-list-item-info>
-                    <cw-list-item-info label="预定时间">
-                        {{ common.date(item.created_at) }}
-                    </cw-list-item-info>
+                    <cw-list-item-info label="预定时间">{{ common.date(item.created_at) }}</cw-list-item-info>
                 </cw-list-item>
             </cw-list>
         </cw-tab>

@@ -2,15 +2,15 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
+ * | Copyright (c) 2020-2024  All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: contact@chowa.cn
+ * | Author: 
  * +----------------------------------------------------------------------
  */
 
-import Mysql from 'mysql';
+import * as mysql2 from 'mysql2';
 import Knex from 'knex';
 import yaml from 'js-yaml';
 import fs from 'fs';
@@ -24,7 +24,7 @@ interface Config {
         port: number;
         name: string;
     };
-    mysqlConfig: Mysql.ConnectionConfig & Knex.ConnectionConfig;
+    mysqlConfig: mysql2.ConnectionOptions & Knex.ConnectionConfig;
     redis: {
         host: string;
         port: number;
@@ -104,7 +104,7 @@ function generateConfig(): Config {
         process.exit();
     }
 
-    const mysqlConfig: Mysql.ConnectionConfig & Knex.ConnectionConfig = {
+    const mysqlConfig: mysql2.ConnectionOptions & Knex.ConnectionConfig = {
         host: '',
         port: 3306,
         user: 'root',

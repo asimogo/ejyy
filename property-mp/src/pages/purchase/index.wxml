@@ -110,12 +110,8 @@
                     wx:key="index"
                     url="/pages/purchase/detail?id={{item.id}}"
                 >
-                    <cw-list-item-info label="备注信息">
-                        {{ item.remark ? item.remark : '-'}}
-                    </cw-list-item-info>
-                    <cw-list-item-info label="采购金额">
-                        {{ item.total }}元
-                    </cw-list-item-info>
+                    <cw-list-item-info label="备注信息">{{ item.remark ? item.remark : '-'}}</cw-list-item-info>
+                    <cw-list-item-info label="采购金额">{{ item.total }}元</cw-list-item-info>
                     <cw-list-item-info label="申请结果">
                         <block wx:if="{{item.cancel}}">
                             <cw-tag round color="#ff976a">已取消</cw-tag>
@@ -130,9 +126,7 @@
                             <cw-tag round color="#52c41a">成功</cw-tag>
                         </block>
                     </cw-list-item-info>
-                    <cw-list-item-info label="申请时间">
-                        {{ common.date(item.created_at) }}
-                    </cw-list-item-info>
+                    <cw-list-item-info label="申请时间">{{ common.date(item.created_at) }}</cw-list-item-info>
                 </cw-list-item>
             </cw-list>
         </cw-tab>

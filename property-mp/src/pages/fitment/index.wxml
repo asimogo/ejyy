@@ -15,12 +15,8 @@
             wx:key="index"
             useFooterSlot="{{item.step === 3 ? true : false}}"
         >
-            <cw-list-item-info label="装修位置">
-                {{ common.building(item) }}
-            </cw-list-item-info>
-            <cw-list-item-info label="申请时间">
-                {{ common.date(item.created_at) }}
-            </cw-list-item-info>
+            <cw-list-item-info label="装修位置">{{ common.building(item) }}</cw-list-item-info>
+            <cw-list-item-info label="申请时间">{{ common.date(item.created_at) }}</cw-list-item-info>
 
             <view slot="footer">
                 <cw-button size="small" round type="primary" data-id="{{item.id}}" bind:click="finish">

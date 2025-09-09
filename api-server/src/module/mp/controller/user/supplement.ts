@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
+ * | Copyright (c) 2020-2024  All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: contact@chowa.cn
+ * | Author: 
  * +----------------------------------------------------------------------
  */
 
@@ -38,7 +38,7 @@ const MpUserSupplementAction = <Action>{
             },
             {
                 name: 'signature',
-                required: true,
+                required: false,
                 max: 36
             },
             {
@@ -62,12 +62,12 @@ const MpUserSupplementAction = <Action>{
     response: async ctx => {
         const { nick_name, signature, real_name, idcard, avatar_url } = <RequestBody>ctx.request.body;
 
-        if (!ctx.mpUserInfo.phone) {
-            return (ctx.body = {
-                code: USER_NOT_BINDING_PHONE,
-                message: '当前用户未绑定手机号码'
-            });
-        }
+        // if (!ctx.mpUserInfo.phone) {
+        //     return (ctx.body = {
+        //         code: USER_NOT_BINDING_PHONE,
+        //         message: '当前用户未绑定手机号码'
+        //     });
+        // }
 
         const gender = utils.idcard.gender(idcard);
 

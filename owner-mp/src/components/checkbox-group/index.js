@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
+ * | Copyright (c) 2020-2024  All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: contact@chowa.cn
+ * | Author: 
  * +----------------------------------------------------------------------
  */
 
@@ -14,7 +14,7 @@ import { useChildren } from '../common/relation';
 import { CwComponent } from '../common/component';
 CwComponent({
     field: true,
-    relation: useChildren('checkbox', function(target) {
+    relation: useChildren('checkbox', function (target) {
         this.updateChild(target);
     }),
     props: {

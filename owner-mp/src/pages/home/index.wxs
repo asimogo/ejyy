@@ -31,7 +31,7 @@ function approve(communityInfo) {
 
     return []
         .concat(communityInfo.current.houses, communityInfo.current.carports, communityInfo.current.warehouses)
-        .every(function(building) {
+        .every(function (building) {
             return building.authenticated === 1;
         });
 }

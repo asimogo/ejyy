@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
+ * | Copyright (c) 2020-2024  All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: contact@chowa.cn
+ * | Author: 
  * +----------------------------------------------------------------------
  */
 
@@ -125,18 +125,18 @@ App({
                     communityInfo: res.data.communityInfo,
                     globalFetching: false
                 });
-                var pages = getCurrentPages() //获取加载的页面
-                var currentPage = pages[pages.length - 1].route //获取当前页面的对象 修改数量可以获取之前跳转页面的地址
+                var pages = getCurrentPages(); //获取加载的页面
+                var currentPage = pages[pages.length - 1].route; //获取当前页面的对象 修改数量可以获取之前跳转页面的地址
                 if (currentPage !== 'pages/zone/avatar') {
-                  if (!res.data.userInfo.intact) {
-                    wx.redirectTo({
-                        url: '/pages/zone/supplement'
-                    });
-                  } else if (res.data.communityInfo.list.length === 0) {
-                      wx.redirectTo({
-                          url: '/pages/community/binding'
-                      });
-                  }
+                    if (!res.data.userInfo.intact) {
+                        wx.redirectTo({
+                            url: '/pages/zone/supplement'
+                        });
+                    } else if (res.data.communityInfo.list.length === 0) {
+                        wx.redirectTo({
+                            url: '/pages/community/binding'
+                        });
+                    }
                 }
             });
     },

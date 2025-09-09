@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
+ * | Copyright (c) 2020-2024  All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: contact@chowa.cn
+ * | Author: 
  * +----------------------------------------------------------------------
  */
 
@@ -110,15 +110,8 @@ CwPage({
                 submiting: true
             });
 
-            const {
-                company_name,
-                contact_person,
-                community_name,
-                household_amount,
-                province,
-                city,
-                district
-            } = this.data;
+            const { company_name, contact_person, community_name, household_amount, province, city, district } =
+                this.data;
 
             utils
                 .request({

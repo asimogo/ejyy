@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020~2022 https://www.chowa.cn All rights reserved.
+ * | Copyright (c) 2020~2022  All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: contact@chowa.cn
+ * | Author: 
  * +----------------------------------------------------------------------
  */
 
@@ -42,13 +42,13 @@ CwPage({
                 { required: true, message: '请输入身份证号码' },
                 { pattern: /^\d{17}(x|X|\d){1}$/, message: '请输入正确的身份证号码' }
             ],
-            phone: [{ required: true, message: '请授权获取您的手机号码' }],
+            phone: [{ required: false, message: '请授权获取您的手机号码' }],
             nick_name: [
                 { required: true, message: '请输入昵称' },
                 { max: 12, message: '昵称不能超过12个字' }
             ],
             signature: [
-                { required: true, message: '请输入签名' },
+                { required: false, message: '请输入签名' },
                 { max: 36, message: '昵称不能超过36个字' }
             ],
             avatar_url: [{ required: true, message: '请上传头像' }]
@@ -91,6 +91,27 @@ CwPage({
         });
     },
     getPhoneNumber(e) {
+        console.log('getPhoneNumber event detail:', e.detail);
+
+        if (!e.detail.iv || !e.detail.encryptedData) {
+            return $notify({
+                type: 'danger',
+                message: '请同意获取你的手机号码'
+            });
+        }
+
+        // 检查是否在开发者工具中
+        const systemInfo = wx.getSystemInfoSync();
+
+        if (systemInfo.platform === 'devtools') {
+            console.warn('在开发者工具中，获取手机号功能可能无法正常工作');
+            $notify({
+                type: 'warning',
+                message: '开发者工具中无法获取真实手机号，请在真机中测试'
+            });
+            return;
+        }
+
         $toast.loading({
             duration: 0,
             forbidClick: true,
@@ -148,26 +169,36 @@ CwPage({
                         utils.file.md5(res.tempFilePath).then(hash => {
                             const fileName = `avatar/${hash}${utils.file.ext(res.tempFilePath)}`;
 
-                            utils.oss(fileName).then(sign => {
-                                wx.uploadFile({
-                                    url: sign.host,
-                                    filePath: res.tempFilePath,
-                                    name: 'file',
-                                    formData: sign,
-                                    success: () => {
-                                        this.setData({
-                                            avatar_url: `/${sign.key}`
-                                        });
-                                        $toast.clear();
-                                    },
-                                    fail: res => {
-                                        $toast.clear();
-                                        $notify({
-                                            type: 'danger',
-                                            message: '获取微信头像失败'
-                                        });
-                                    }
+                            return utils.oss(fileName).then(sign => {
+                                return new Promise((resolve, reject) => {
+                                    wx.uploadFile({
+                                        url: sign.host,
+                                        filePath: res.tempFilePath,
+                                        name: 'file',
+                                        formData: sign,
+                                        success: (uploadRes) => {
+                                            if (uploadRes.statusCode === 200) {
+                                                this.setData({
+                                                    avatar_url: `/${sign.key}`
+                                                });
+                                                $toast.clear();
+                                                resolve(uploadRes);
+                                            } else {
+                                                reject(new Error('上传失败'));
+                                            }
+                                        },
+                                        fail: (err) => {
+                                            reject(err);
+                                        }
+                                    });
                                 });
+                            });
+                        }).catch(error => {
+                            console.error('获取微信头像失败:', error);
+                            $toast.clear();
+                            $notify({
+                                type: 'danger',
+                                message: '获取微信头像失败'
                             });
                         });
                     },

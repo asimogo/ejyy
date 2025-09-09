@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
+ * | Copyright (c) 2020-2024  All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: contact@chowa.cn
+ * | Author: 
  * +----------------------------------------------------------------------
  */
 
@@ -49,11 +49,24 @@ CwPage({
         timer = null;
     },
     bindPhone(e) {
-        if (!e.detail.iv) {
+        console.log('bindPhone event detail:', e.detail);
+        
+        if (!e.detail.iv || !e.detail.encryptedData) {
             return $notify({
                 type: 'danger',
                 message: '请同意获取你的手机号码'
             });
+        }
+
+        // 检查是否在开发者工具中
+        const systemInfo = wx.getSystemInfoSync();
+        if (systemInfo.platform === 'devtools') {
+            console.warn('在开发者工具中，获取手机号功能可能无法正常工作');
+            $notify({
+                type: 'warning',
+                message: '开发者工具中无法获取真实手机号，请在真机中测试'
+            });
+            return;
         }
 
         $toast.loading({

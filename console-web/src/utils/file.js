@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
+ * | Copyright (c) 2020-2024  All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: contact@chowa.cn
+ * | Author: 
  * +----------------------------------------------------------------------
  */
 
@@ -38,20 +38,26 @@ export function parse(file) {
         const fr = new FileReader();
 
         fr.onload = () => {
-            const filename = file.name;
-            const pos = filename.lastIndexOf('.');
-            const ext = filename.substring(pos);
+            try {
+                const filename = file.name;
+                const pos = filename.lastIndexOf('.');
+                const ext = filename.substring(pos);
 
-            resolve({
-                name: filename,
-                pos,
-                ext,
-                hash: SparkMD5.hash(fr.result)
-            });
+                resolve({
+                    name: filename,
+                    pos,
+                    ext,
+                    hash: SparkMD5.hash(fr.result)
+                });
+            } catch (error) {
+                console.error('文件解析失败:', error);
+                reject(new Error('文件解析失败'));
+            }
         };
 
-        fr.onerror = () => {
-            reject();
+        fr.onerror = (error) => {
+            console.error('文件读取失败:', error);
+            reject(new Error('文件读取失败'));
         };
 
         fr.readAsBinaryString(file);

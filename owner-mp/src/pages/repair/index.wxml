@@ -17,30 +17,16 @@
             url="/pages/repair/detail?id={{item.id}}"
         >
             <cw-list-item-info label="维修位置">
-                <block wx:if="{{item.building_id === 0}}">
-                    公共设施/区域
-                </block>
-                <block wx:else>
-                    {{common.building(item)}}
-                </block>
+                <block wx:if="{{item.building_id === 0}}">公共设施/区域</block>
+                <block wx:else>{{common.building(item)}}</block>
             </cw-list-item-info>
             <cw-list-item-info label="维修类型">
-                <block wx:if="{{item.repair_type === 1}}">
-                    水暖
-                </block>
-                <block wx:elif="{{item.repair_type === 2}}">
-                    电路
-                </block>
-                <block wx:elif="{{item.repair_type === 3}}">
-                    门窗
-                </block>
-                <block wx:elif="{{item.repair_type === 4}}">
-                    公共设施
-                </block>
+                <block wx:if="{{item.repair_type === 1}}">水暖</block>
+                <block wx:elif="{{item.repair_type === 2}}">电路</block>
+                <block wx:elif="{{item.repair_type === 3}}">门窗</block>
+                <block wx:elif="{{item.repair_type === 4}}">公共设施</block>
             </cw-list-item-info>
-            <cw-list-item-info label="问题描述">
-                {{ item.description }}
-            </cw-list-item-info>
+            <cw-list-item-info label="问题描述">{{ item.description }}</cw-list-item-info>
             <cw-list-item-info label="当前进度">
                 <block wx:if="{{item.merge_id}}">
                     <cw-tag round color="#52c41a">已完成</cw-tag>
@@ -60,9 +46,7 @@
                     </block>
                 </block>
             </cw-list-item-info>
-            <cw-list-item-info label="报修时间">
-                {{ common.date(item.created_at) }}
-            </cw-list-item-info>
+            <cw-list-item-info label="报修时间">{{ common.date(item.created_at) }}</cw-list-item-info>
         </cw-list-item>
     </cw-list>
 </view>

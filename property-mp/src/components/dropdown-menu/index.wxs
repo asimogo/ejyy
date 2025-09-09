@@ -3,7 +3,7 @@ function displayTitle(item) {
         return item.title;
     }
 
-    var match = item.options.filter(function(option) {
+    var match = item.options.filter(function (option) {
         return option.value === item.value;
     });
     var displayTitle = match.length ? match[0].text : '';

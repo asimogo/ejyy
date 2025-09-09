@@ -24,9 +24,7 @@
                 上班打卡时间：{{ common.date(item.begin) }}
             </view>
         </view>
-        <view wx:if="{{list.length === 0 && !fetching}}" class="no-data">
-            暂无本日打卡记录
-        </view>
+        <view wx:if="{{list.length === 0 && !fetching}}" class="no-data">暂无本日打卡记录</view>
     </view>
 
     <view class="sign-btn {{disabled ? 'disabled' : ''}}" bind:tap="submit">

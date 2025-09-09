@@ -15,18 +15,12 @@
             title="{{common.number('PA', item.created_at, item.id)}}"
             url="/pages/party/detail?id={{item.id}}"
         >
-            <cw-list-item-info label="文章标题">
-                {{item.title}}
-            </cw-list-item-info>
+            <cw-list-item-info label="文章标题">{{item.title}}</cw-list-item-info>
             <cw-list-item-info label="封面图片" wx:if="{{item.carousel}}">
                 <image src="{{ASSETS_HOST}}{{item.cover_img}}" mode="widthFix" />
             </cw-list-item-info>
-            <cw-list-item-info label="发布时间">
-                {{ common.date(item.published_at) }}
-            </cw-list-item-info>
-            <cw-list-item-info label="撰写人">
-                {{ item.real_name }}
-            </cw-list-item-info>
+            <cw-list-item-info label="发布时间">{{ common.date(item.published_at) }}</cw-list-item-info>
+            <cw-list-item-info label="撰写人">{{ item.real_name }}</cw-list-item-info>
         </cw-list-item>
     </cw-list>
 

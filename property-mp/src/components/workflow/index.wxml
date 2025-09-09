@@ -136,9 +136,7 @@
                 <cw-icon name="judge" />
             </view>
             <view class="content">
-                <view class="title">
-                    {{ workflow.judge(item, info.department_name, label) }}
-                </view>
+                <view class="title">{{ workflow.judge(item, info.department_name, label) }}</view>
             </view>
         </block>
     </view>
@@ -147,9 +145,7 @@
             <cw-icon name="success" />
         </view>
         <view class="content">
-            <view class="title">
-                申请成功
-            </view>
+            <view class="title">申请成功</view>
         </view>
     </view>
 

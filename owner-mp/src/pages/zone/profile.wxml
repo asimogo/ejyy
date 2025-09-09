@@ -24,9 +24,7 @@
         />
     </cw-cell-group>
 
-    <cw-button custom-class="btn" block loading="{{submiting}}" type="info" bind:click="save">
-        修改个人资料
-    </cw-button>
+    <cw-button custom-class="btn" block loading="{{submiting}}" type="info" bind:click="save">修改个人资料</cw-button>
     <cw-copyright />
     <cw-toast id="cw-toast" />
 </view>

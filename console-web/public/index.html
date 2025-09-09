@@ -15,7 +15,7 @@
                 var match = window.navigator.userAgent.match(/MSIE\s+(\d+\.\d+)/);
 
                 if (match && parseInt(match[1], 10) < 10) {
-                    window.location.href = 'https://www.chowa.cn/update-browser.html';
+                    alert('您的浏览器版本过低，请升级到最新版本以获得最佳体验。');
                 }
             }
             var hm = document.createElement('script');

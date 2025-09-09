@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
+ * | Copyright (c) 2020-2024  All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: contact@chowa.cn
+ * | Author: 
  * +----------------------------------------------------------------------
  */
 
@@ -312,7 +312,7 @@ QRCodeModel.prototype = {
 };
 QRCodeModel.PAD0 = 0xec;
 QRCodeModel.PAD1 = 0x11;
-QRCodeModel.createData = function(typeNumber, errorCorrectLevel, dataList) {
+QRCodeModel.createData = function (typeNumber, errorCorrectLevel, dataList) {
     const rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
     let buffer = new QRBitBuffer();
     for (let i = 0; i < dataList.length; i++) {
@@ -346,7 +346,7 @@ QRCodeModel.createData = function(typeNumber, errorCorrectLevel, dataList) {
     }
     return QRCodeModel.createBytes(buffer, rsBlocks);
 };
-QRCodeModel.createBytes = function(buffer, rsBlocks) {
+QRCodeModel.createBytes = function (buffer, rsBlocks) {
     let offset = 0;
     let maxDcCount = 0;
     let maxEcCount = 0;
@@ -883,7 +883,7 @@ QRRSBlock.RS_BLOCK_TABLE = [
     [34, 54, 24, 34, 55, 25],
     [20, 45, 15, 61, 46, 16]
 ];
-QRRSBlock.getRSBlocks = function(typeNumber, errorCorrectLevel) {
+QRRSBlock.getRSBlocks = function (typeNumber, errorCorrectLevel) {
     const rsBlock = QRRSBlock.getRsBlockTable(typeNumber, errorCorrectLevel);
     if (rsBlock == undefined) {
         throw new Error(`bad rs block @ typeNumber:${typeNumber}/errorCorrectLevel:${errorCorrectLevel}`);
@@ -900,7 +900,7 @@ QRRSBlock.getRSBlocks = function(typeNumber, errorCorrectLevel) {
     }
     return list;
 };
-QRRSBlock.getRsBlockTable = function(typeNumber, errorCorrectLevel) {
+QRRSBlock.getRsBlockTable = function (typeNumber, errorCorrectLevel) {
     switch (errorCorrectLevel) {
         case QRErrorCorrectLevel.L:
             return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 0];

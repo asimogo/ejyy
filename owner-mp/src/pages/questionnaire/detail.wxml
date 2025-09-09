@@ -12,9 +12,7 @@
             <block wx:if="{{item.type === 1}}">
                 <cw-radio-group value="{{item.answers[0]}}">
                     <view wx:for="{{item.options}}" wx:for-item="option" wx:for-index="key" wx:key="key">
-                        <cw-radio name="{{option.id}}" custom-class="option">
-                            {{option.option_val}}
-                        </cw-radio>
+                        <cw-radio name="{{option.id}}" custom-class="option">{{option.option_val}}</cw-radio>
                         <cw-progress
                             color="#7232dd"
                             custom-class="progress"

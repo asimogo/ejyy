@@ -98,11 +98,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
+ * | Copyright (c) 2020-2024  All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: contact@chowa.cn
+ * | Author: 
  * +----------------------------------------------------------------------
  */
 
@@ -545,25 +545,48 @@ export default {
             const file = this.dataToBlob(imgUrl);
 
             utils.image.parse(file).then(img => {
+                console.log('图像解析结果:', img);
                 const key = `${this.dir}/${img.hash}${img.ext}`;
+                console.log('生成的上传key:', key);
                 const fd = new FormData();
                 this.result = `/${key}`;
                 this.uploading = true;
 
                 utils.oss(key).then(res => {
-                    for (let prop in res) {
-                        fd.append(prop, res[prop]);
-                    }
-
+                    console.log('OSS签名响应:', res);
+                    
+                    // 按OSS要求的顺序添加字段
+                    fd.append('key', res.key);
+                    fd.append('policy', res.policy);
+                    fd.append('OSSAccessKeyId', res.OSSAccessKeyId);
+                    fd.append('success_action_status', res.success_action_status);
+                    fd.append('signature', res.signature);
+                    
+                    // file字段必须放在最后
                     fd.append('file', file);
+                    
+                    console.log('FormData内容详情:');
+                    console.log('- key:', res.key);
+                    console.log('- policy长度:', res.policy ? res.policy.length : 'undefined');
+                    console.log('- OSSAccessKeyId:', res.OSSAccessKeyId);
+                    console.log('- success_action_status:', res.success_action_status);
+                    console.log('- signature长度:', res.signature ? res.signature.length : 'undefined');
+                    console.log('- file大小:', file.size);
+                    console.log('上传目标URL:', res.host);
 
                     const xhr = new XMLHttpRequest();
+                    console.log('准备发送POST请求到:', res.host);
                     xhr.open('post', res.host, true);
+                    xhr.timeout = 30000; // 30秒超时
+                    
                     xhr.onreadystatechange = () => {
                         if (xhr.readyState !== 4) {
                             return;
                         }
-                        if (xhr.status === 200 || xhr.status === 201 || xhr.staus === 202) {
+                        console.log('上传响应状态码:', xhr.status);
+                        console.log('上传响应内容:', xhr.responseText);
+                        
+                        if (xhr.status === 200 || xhr.status === 201 || xhr.status === 202 || xhr.status === 204) {
                             setTimeout(() => {
                                 this.visible = false;
                                 this.uploading = false;
@@ -571,7 +594,24 @@ export default {
                                 this.$emit('on-change', this.result);
                                 this.dispatch('FormItem', 'on-form-change', this.result);
                             }, 1000);
+                        } else {
+                            console.error('上传失败，状态码:', xhr.status);
+                            console.error('上传响应:', xhr.responseText);
+                            this.uploading = false;
+                            Message.error(`上传失败（状态码：${xhr.status}），请重试`);
                         }
+                    };
+                    
+                    xhr.onerror = () => {
+                        console.error('网络错误或请求失败');
+                        this.uploading = false;
+                        Message.error('网络错误，请检查网络连接后重试');
+                    };
+                    
+                    xhr.ontimeout = () => {
+                        console.error('上传超时');
+                        this.uploading = false;
+                        Message.error('上传超时，请重试');
                     };
                     xhr.upload.addEventListener(
                         'progress',
@@ -581,7 +621,15 @@ export default {
                         false
                     ); //监听进度
                     xhr.send(fd);
+                }).catch(error => {
+                    console.error('获取OSS签名失败:', error);
+                    this.uploading = false;
+                    Message.error('获取上传凭证失败，请重试');
                 });
+            }).catch(error => {
+                console.error('图像解析失败:', error);
+                this.uploading = false;
+                Message.error('图像处理失败，请重试');
             });
         },
         cancel() {

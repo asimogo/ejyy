@@ -19,9 +19,7 @@
                     wx:key="index"
                     url="/pages/move_car/detail?id={{item.id}}"
                 >
-                    <cw-list-item-info label="车牌号码">
-                        {{ item.car_number }}
-                    </cw-list-item-info>
+                    <cw-list-item-info label="车牌号码">{{ item.car_number }}</cw-list-item-info>
                     <cw-list-item-info label="挪车原因">
                         <block wx:if="{{item.move_reason === 1}}">阻碍通行</block>
                         <block wx:elif="{{item.move_reason === 2}}">占用消防通道</block>
@@ -37,9 +35,7 @@
                             <cw-tag round color="#52c41a">已处理</cw-tag>
                         </block>
                     </cw-list-item-info>
-                    <cw-list-item-info label="提交时间">
-                        {{ common.date(item.created_at) }}
-                    </cw-list-item-info>
+                    <cw-list-item-info label="提交时间">{{ common.date(item.created_at) }}</cw-list-item-info>
                 </cw-list-item>
             </cw-list>
         </cw-tab>
@@ -60,12 +56,8 @@
                     status="{{item.community_name}}小区"
                     wx:key="index"
                 >
-                    <cw-list-item-info label="挪车小区">
-                        {{ item.community_name }}
-                    </cw-list-item-info>
-                    <cw-list-item-info label="车牌号码">
-                        {{ item.car_number }}
-                    </cw-list-item-info>
+                    <cw-list-item-info label="挪车小区">{{ item.community_name }}</cw-list-item-info>
+                    <cw-list-item-info label="车牌号码">{{ item.car_number }}</cw-list-item-info>
                     <cw-list-item-info label="挪车原因">
                         <block wx:if="{{item.move_reason === 1}}">阻碍通行</block>
                         <block wx:elif="{{item.move_reason === 2}}">占用消防通道</block>
@@ -81,9 +73,7 @@
                             <cw-tag round color="#52c41a">已处理</cw-tag>
                         </block>
                     </cw-list-item-info>
-                    <cw-list-item-info label="申请时间">
-                        {{ common.date(item.created_at) }}
-                    </cw-list-item-info>
+                    <cw-list-item-info label="申请时间">{{ common.date(item.created_at) }}</cw-list-item-info>
                 </cw-list-item>
             </cw-list>
         </cw-tab>

@@ -38,9 +38,7 @@
             custom-class="{{ index === 0 ? '' : 'section' }}"
         >
             <view class="panel-container">
-                <view wx:if="{{ item.cars.length === 0 }}" class="nocar">
-                    未绑定车辆
-                </view>
+                <view wx:if="{{ item.cars.length === 0 }}" class="nocar">未绑定车辆</view>
                 <view wx:else>
                     <view
                         wx:for="{{ item.cars }}"

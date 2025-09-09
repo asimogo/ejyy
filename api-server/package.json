@@ -38,7 +38,6 @@
     "koa-session": "^6.2.0",
     "module-alias": "^2.2.2",
     "moment": "^2.29.1",
-    "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
     "node-schedule": "^2.0.0",
     "node-xlsx": "^0.17.1",

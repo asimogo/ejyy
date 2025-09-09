@@ -23,9 +23,7 @@
         />
     </cw-cell-group>
 
-    <cw-button custom-class="btn" block loading="{{submiting}}" type="info" bind:click="submit">
-        领用
-    </cw-button>
+    <cw-button custom-class="btn" block loading="{{submiting}}" type="info" bind:click="submit">领用</cw-button>
 
     <cw-colleague show="{{show}}" bind:close="hideColleague" bind:select="onSelectColleague" />
 

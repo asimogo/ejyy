@@ -36,9 +36,7 @@
 
     <!-- 提交车牌 -->
     <view class="car-number-btn-wrapper">
-        <cw-button type="info" block bind:click="submit" loading="{{submiting}}">
-            添加车辆信息
-        </cw-button>
+        <cw-button type="info" block bind:click="submit" loading="{{submiting}}">添加车辆信息</cw-button>
     </view>
 
     <cw-toast id="cw-toast" />

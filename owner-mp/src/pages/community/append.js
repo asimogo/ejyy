@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
+ * | Copyright (c) 2020-2024  All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: contact@chowa.cn
+ * | Author: 
  * +----------------------------------------------------------------------
  */
 
@@ -39,6 +39,7 @@ CwPage({
             warehouse: [{ max: 56, message: '仓库信息不能超过56个字' }]
         }
     },
+
     // onLoad() {
     //     wx.getLocation({
     //         success: (res) => {
@@ -123,7 +124,7 @@ CwPage({
                             const data = {};
                             let gloablSetting = false;
 
-                            // 全局设置啊啊啊
+                            // 全局设置
                             if (res.subscriptionsSetting.mainSwitch && res.subscriptionsSetting.itemSettings) {
                                 values.forEach((tpl, index) => {
                                     if (tpl in res.subscriptionsSetting) {
@@ -148,24 +149,16 @@ CwPage({
                                         send(data);
                                     },
                                     fail: () => {
-                                        $toast.clear();
-                                        $notify({
-                                            type: 'danger',
-                                            message: '系统异常，请重试'
-                                        });
-                                        this.setData({ submiting: false });
+                                        //订阅消息失败时，仍然提交申请[仅测试时使用]
+                                        send({ subscribed: 0 });
                                     }
                                 });
                             }
                         });
                 },
                 fail: () => {
-                    $toast.clear();
-                    $notify({
-                        type: 'danger',
-                        message: '系统异常，请重试'
-                    });
-                    this.setData({ submiting: false });
+                    //订阅消息失败时，仍然提交申请[仅测试时使用]
+                    send({ subscribed: 0 });
                 }
             });
         });

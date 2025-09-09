@@ -40,9 +40,7 @@
         <view class="item">如果小区不存在，您提交的信息将会被搁置。</view>
     </view>
 
-    <cw-button custom-class="btn" loading="{{submiting}}" block type="info" bind:click="save">
-        提交
-    </cw-button>
+    <cw-button custom-class="btn" loading="{{submiting}}" block type="info" bind:click="save">提交</cw-button>
     <cw-copyright />
     <cw-notify id="cw-notify" />
     <cw-toast id="cw-toast" />

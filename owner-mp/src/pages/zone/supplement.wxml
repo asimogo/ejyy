@@ -54,9 +54,7 @@
 
     <view class="fill-btn" bindtap="useWechatInfo">使用微信公开信息填充？</view>
 
-    <cw-button custom-class="btn" block loading="{{submiting}}" type="info" bind:click="save">
-        提交
-    </cw-button>
+    <cw-button custom-class="btn" block loading="{{submiting}}" type="info" bind:click="save">提交</cw-button>
     <cw-copyright />
     <cw-toast id="cw-toast" />
     <cw-notify id="cw-notify" />

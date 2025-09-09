@@ -26,9 +26,7 @@
                     </view>
                 </view>
                 <view slot="footer" class="footer">
-                    <cw-button size="small" round type="info" bind:click="showPetLicense">
-                        添加宠物登记信息
-                    </cw-button>
+                    <cw-button size="small" round type="info" bind:click="showPetLicense">添加宠物登记信息</cw-button>
                 </view>
             </cw-panel>
             <view wx:else>
@@ -58,9 +56,7 @@
                 bind:click="showlicenseCalendar"
             />
             <view slot="footer" class="footer">
-                <cw-button size="small" round bind:click="hidePetLicense">
-                    取消
-                </cw-button>
+                <cw-button size="small" round bind:click="hidePetLicense">取消</cw-button>
                 <cw-button size="small" round type="info" loading="{{licenseSubmiting}}" bind:click="updatePetLicense">
                     确认
                 </cw-button>
@@ -97,9 +93,7 @@
                     border="{{false}}"
                 />
                 <view slot="footer" class="footer">
-                    <cw-button size="small" round bind:click="hideVaccinate">
-                        取消
-                    </cw-button>
+                    <cw-button size="small" round bind:click="hideVaccinate">取消</cw-button>
                     <cw-button
                         size="small"
                         round

@@ -86,15 +86,9 @@
                         custom-class="node-wrapper"
                     >
                         <view class="node status{{item.status}}">
-                            <view class="status">
-                                {{ mission.statusText(item.status) }}
-                            </view>
-                            <view class="year">
-                                {{ item.year }}
-                            </view>
-                            <view class="date">
-                                {{ item.date }}
-                            </view>
+                            <view class="status">{{ mission.statusText(item.status) }}</view>
+                            <view class="year">{{ item.year }}</view>
+                            <view class="date">{{ item.date }}</view>
                         </view>
                     </cw-col>
                 </cw-row>

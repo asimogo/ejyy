@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
+ * | Copyright (c) 2020-2024  All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: contact@chowa.cn
+ * | Author: 
  * +----------------------------------------------------------------------
  */
 
@@ -31,14 +31,23 @@ export function parse(file) {
                     });
                 };
 
+                img.onerror = () => {
+                    console.error('图像加载失败');
+                    reject(new Error('图像加载失败'));
+                };
+
                 img.src = src;
             };
 
-            fr.onerror = () => {
-                reject();
+            fr.onerror = (error) => {
+                console.error('文件读取失败:', error);
+                reject(new Error('文件读取失败'));
             };
 
             fr.readAsDataURL(file);
+        }).catch(error => {
+            console.error('文件解析失败:', error);
+            reject(error);
         });
     });
 }

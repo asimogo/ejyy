@@ -17,25 +17,17 @@
             last="{{index === list.length - 1}}"
         >
             <cw-row>
-                <cw-col span="6">
-                    是否正常：
-                </cw-col>
+                <cw-col span="6">是否正常：</cw-col>
                 <cw-col span="18">
                     <cw-tag color="{{ item.normal ? '#19be6b' : '#f90' }}">{{ item.normal ? '是' : '否' }}</cw-tag>
                 </cw-col>
             </cw-row>
             <cw-row>
-                <cw-col span="6">
-                    巡检备注：
-                </cw-col>
-                <cw-col span="18">
-                    {{ item.remark ? item.remark : '-' }}
-                </cw-col>
+                <cw-col span="6">巡检备注：</cw-col>
+                <cw-col span="18">{{ item.remark ? item.remark : '-' }}</cw-col>
             </cw-row>
             <cw-row>
-                <cw-col span="6">
-                    现场图片：
-                </cw-col>
+                <cw-col span="6">现场图片：</cw-col>
                 <cw-col span="18">
                     <cw-image
                         wx:for="{{item.imgs}}"
@@ -51,20 +43,12 @@
                 </cw-col>
             </cw-row>
             <cw-row>
-                <cw-col span="6">
-                    图片相似度：
-                </cw-col>
-                <cw-col span="18">
-                    {{ mission.like(item.like, item.imgs.length) }}%
-                </cw-col>
+                <cw-col span="6">图片相似度：</cw-col>
+                <cw-col span="18">{{ mission.like(item.like, item.imgs.length) }}%</cw-col>
             </cw-row>
             <cw-row>
-                <cw-col span="6">
-                    巡检时间：
-                </cw-col>
-                <cw-col span="18">
-                    {{ common.date(item.created_at) }}
-                </cw-col>
+                <cw-col span="6">巡检时间：</cw-col>
+                <cw-col span="18">{{ common.date(item.created_at) }}</cw-col>
             </cw-row>
         </cw-timeline>
     </view>

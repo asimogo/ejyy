@@ -23,15 +23,9 @@
             wx:key="index"
             useFooterSlot
         >
-            <cw-list-item-info label="详细地址">
-                {{ item.address }}
-            </cw-list-item-info>
-            <cw-list-item-info label="距离小区">
-                {{ item._distance }}米
-            </cw-list-item-info>
-            <cw-list-item-info label="联系电话" wx:if="{{item.tel}}">
-                {{ item.tel }}
-            </cw-list-item-info>
+            <cw-list-item-info label="详细地址">{{ item.address }}</cw-list-item-info>
+            <cw-list-item-info label="距离小区">{{ item._distance }}米</cw-list-item-info>
+            <cw-list-item-info label="联系电话" wx:if="{{item.tel}}">{{ item.tel }}</cw-list-item-info>
 
             <view slot="footer">
                 <cw-button

@@ -17,15 +17,9 @@
             wx:key="index"
             url="/pages/questionnaire/answer?id={{item.id}}"
         >
-            <cw-list-item-info label="问卷名称">
-                {{item.title}}
-            </cw-list-item-info>
-            <cw-list-item-info label="开始时间">
-                {{common.date(item.published_at, false)}}
-            </cw-list-item-info>
-            <cw-list-item-info label="结束时间">
-                {{common.date(item.expire, false)}}
-            </cw-list-item-info>
+            <cw-list-item-info label="问卷名称">{{item.title}}</cw-list-item-info>
+            <cw-list-item-info label="开始时间">{{common.date(item.published_at, false)}}</cw-list-item-info>
+            <cw-list-item-info label="结束时间">{{common.date(item.expire, false)}}</cw-list-item-info>
         </cw-list-item>
 
         <navigator url="/pages/community/index" class="link" slot="empty">切换默认小区？</navigator>

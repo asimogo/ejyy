@@ -11,9 +11,7 @@
                 class="cw-card__img thumb-class"
             />
             <slot wx:else name="thumb" />
-            <cw-tag wx:if="{{ tag }}" mark type="danger" custom-class="cw-card__tag">
-                {{ tag }}
-            </cw-tag>
+            <cw-tag wx:if="{{ tag }}" mark type="danger" custom-class="cw-card__tag">{{ tag }}</cw-tag>
             <slot wx:else name="tag" />
         </view>
 

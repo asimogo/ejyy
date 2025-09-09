@@ -49,7 +49,5 @@
         style="width:{{_canvas_width * export_scale}}px;height:{{_canvas_height * export_scale}}px;left:{{canvas_left}}px;top:{{canvas_top}}px"
         class="cw-image-cropper-canvas"
     />
-    <cw-button custom-class="btn" block type="info" bind:click="_click">
-        确认
-    </cw-button>
+    <cw-button custom-class="btn" block type="info" bind:click="_click">确认</cw-button>
 </view>

@@ -13,8 +13,6 @@
             <image src="{{ computed.getIconURL(item.icon) }}" class="cw-share-sheet__icon" />
         </button>
         <view wx:if="{{ item.name }}" class="cw-share-sheet__name">{{ item.name }}</view>
-        <view wx:if="{{ item.description }}" class="cw-share-sheet__option-description">
-            {{ item.description }}
-        </view>
+        <view wx:if="{{ item.description }}" class="cw-share-sheet__option-description">{{ item.description }}</view>
     </view>
 </view>
