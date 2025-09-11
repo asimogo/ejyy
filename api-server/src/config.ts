@@ -56,7 +56,13 @@ interface Config {
         };
     };
     map: {
+        // provider: 'tencent' | 'google'
+        provider?: string;
+        // 腾讯地图 Key（向后兼容旧字段 key）
         key: string;
+        tencentKey?: string;
+        // 谷歌地图 Key
+        googleKey?: string;
     };
     session: {
         key: string;
@@ -86,6 +92,9 @@ interface Config {
         user?: string;
         password?: string;
         to?: string;
+    };
+    tpl: {
+        [key: string]: string;
     };
     inited: boolean;
 }
@@ -175,7 +184,10 @@ function generateConfig(): Config {
         },
         // 地图
         map: {
+            provider: (customConfig.map && customConfig.map.provider) || process.env.MAP_PROVIDER || 'tencent',
             key: '',
+            tencentKey: customConfig.map ? customConfig.map.tencentKey : undefined,
+            googleKey: customConfig.map ? customConfig.map.googleKey : undefined,
             ...customConfig.map
         },
         session: {
@@ -214,6 +226,10 @@ function generateConfig(): Config {
             password: '',
             to: '',
             ...customConfig.smtp
+        },
+        // 模板消息ID配置（小程序/公众号等）
+        tpl: {
+            ...(customConfig.tpl || {})
         },
         inited: false
     };

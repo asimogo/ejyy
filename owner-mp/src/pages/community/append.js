@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024  All rights reserved.
+ * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: 
+ * | Author: contact@chowa.cn
  * +----------------------------------------------------------------------
  */
 
@@ -39,7 +39,6 @@ CwPage({
             warehouse: [{ max: 56, message: '仓库信息不能超过56个字' }]
         }
     },
-
     // onLoad() {
     //     wx.getLocation({
     //         success: (res) => {
@@ -66,8 +65,7 @@ CwPage({
             });
 
             const send = data => {
-                utils
-                    .request({
+                utils.request({
                         url: '/apply/create',
                         method: 'post',
                         data: {
@@ -85,8 +83,7 @@ CwPage({
                             });
                             $toast.clear();
 
-                            $dialog
-                                .alert({
+                            $dialog.alert({
                                     forbidClick: true,
                                     title: '提交成功',
                                     message: res.data.community_id
@@ -119,12 +116,18 @@ CwPage({
                             method: 'get'
                         })
                         .then(({ data: tpls }) => {
-                            const values = Object.values(tpls);
+                            // 过滤掉空的模板ID
+                            const values = Object.values(tpls).filter(tpl => tpl);
                             const keys = Object.keys(tpls);
                             const data = {};
                             let gloablSetting = false;
 
-                            // 全局设置
+                            // 如果没有有效的模板ID，直接发送数据
+                            if (values.length === 0) {
+                                return send({});
+                            }
+
+                            // 全局设置啊啊啊
                             if (res.subscriptionsSetting.mainSwitch && res.subscriptionsSetting.itemSettings) {
                                 values.forEach((tpl, index) => {
                                     if (tpl in res.subscriptionsSetting) {
@@ -149,16 +152,28 @@ CwPage({
                                         send(data);
                                     },
                                     fail: () => {
-                                        //订阅消息失败时，仍然提交申请[仅测试时使用]
-                                        send({ subscribed: 0 });
+                                        $toast.clear();
+                                        // 即使订阅消息失败，也继续提交表单
+                                        send(data);
+                                        // $notify({
+                                        //     type: 'danger',
+                                        //     message: '系统异常，请重试'
+                                        // });
+                                        // this.setData({ submiting: false });
                                     }
                                 });
                             }
                         });
                 },
                 fail: () => {
-                    //订阅消息失败时，仍然提交申请[仅测试时使用]
-                    send({ subscribed: 0 });
+                    $toast.clear();
+                    // 即使获取设置失败，也继续提交表单
+                    send({});
+                    // $notify({
+                    //     type: 'danger',
+                    //     message: '系统异常，请重试'
+                    // });
+                    // this.setData({ submiting: false });
                 }
             });
         });

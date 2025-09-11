@@ -22,7 +22,7 @@ export const FORM_ADAPT_WIDTH = 992;
 
 export const HOST_NAME = 'http://localhost:6688';
 
-export const ASSET_HOST = 'http://localhost:6688';
+export const ASSET_HOST = 'https://ejyyrc-cambodia.oss-ap-southeast-1.aliyuncs.com';
 
 export const MAP_KEY = 'your_map_key_here';
 

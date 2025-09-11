@@ -36,7 +36,7 @@ export const VERSION = '1.1.8';
 
 ### 模板消息配置
 
-> 模板id请在`server/src/constant/tpl.ts`中更新
+> 推荐方式：在后端根目录 `.ejyyrc` 的 `tpl` 节点填写各模板 ID；也可直接修改 `api-server/src/constant/tpl.ts`。
 
 #### 报修工单分配通知
 

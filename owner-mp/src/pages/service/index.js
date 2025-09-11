@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024  All rights reserved.
+ * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: 
+ * | Author: contact@chowa.cn
  * +----------------------------------------------------------------------
  */
 
@@ -39,7 +39,8 @@ CwPage({
         page_size: 5,
         page_num: 1,
         page_amount: 1,
-        list: []
+        list: [],
+        mapProvider: 'tencent'
     },
     onLoad() {
         this.setData({
@@ -104,7 +105,8 @@ CwPage({
                         fetching: false,
                         page_num: res.data.page_num,
                         page_amount: res.data.page_amount,
-                        list: page_num === 1 ? res.data.list : [].concat(this.data.list, res.data.list)
+                        list: page_num === 1 ? res.data.list : [].concat(this.data.list, res.data.list),
+                        mapProvider: res.data.map_provider || 'tencent'
                     });
                 },
                 res => {
@@ -135,13 +137,17 @@ CwPage({
     },
     openMap(e) {
         const { location, title } = e.currentTarget.dataset;
-
-        wx.openLocation({
-            latitude: location.lat,
-            longitude: location.lng,
-            scale: 18,
-            title
-        });
+        if (this.data.mapProvider === 'google') {
+            const url = `https://www.google.com/maps/search/?api=1&query=${location.lat},${location.lng}`;
+            wx.navigateTo({ url: `/pages/webmap/index?title=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}` });
+        } else {
+            wx.openLocation({
+                latitude: location.lat,
+                longitude: location.lng,
+                scale: 18,
+                title
+            });
+        }
     },
     makeCall(e) {
         const { tel } = e.currentTarget.dataset;

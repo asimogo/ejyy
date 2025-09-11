@@ -97,6 +97,7 @@ const MpUserLoginAction = <Action>{
                 open_id: mpSessionInfo.data.openid,
                 union_id: mpSessionInfo.data.unionid,
                 phone: null,
+                avatar_url: '/avatar/default.png',
                 created_at: Date.now()
             };
 

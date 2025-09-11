@@ -8,7 +8,7 @@
             :disabled="uploading"
             accept="image/*"
             :show-upload-list="false"
-            :action="ASSET_HOST"
+            :action="ossHost"
             :data="uploadData"
             :on-error="onUploadError"
             :before-upload="onBeforeUpload"
@@ -68,7 +68,8 @@ export default {
             uploadData: {},
             uploading: false,
             uploadProgress: 0,
-            result: this.value
+            result: this.value,
+            ossHost: ASSET_HOST
         };
     },
     mixins: [Emitter],
@@ -81,26 +82,40 @@ export default {
             return new Promise((resolve, reject) => {
                 utils.image.parse(file).then(
                     img => {
+                        console.log('图片解析结果:', img);
+                        console.log('要求尺寸:', { width: this.width, height: this.height });
+                        
                         if (this.width && this.width !== img.width) {
-                            Message.error(`请上传${this.width}宽度图片`);
+                            Message.error(`请上传${this.width}宽度图片，当前图片宽度：${img.width}`);
                             this.uploading = false;
                             return reject();
                         } else if (this.height && this.height !== img.height) {
-                            Message.error(`请上传${this.height}高度图片`);
+                            Message.error(`请上传${this.height}高度图片，当前图片高度：${img.height}`);
                             this.uploading = false;
                             return reject();
                         } else {
                             const key = `${this.dir}/${img.hash}${img.ext}`;
                             this.result = `/${key}`;
+                            console.log('生成的上传key:', key);
 
                             utils.oss(key).then(res => {
+                                console.log('OSS配置获取成功:', res);
                                 this.uploadData = res;
+                                this.ossHost = res.host;
                                 resolve();
+                            }).catch(error => {
+                                console.error('获取OSS签名失败:', error);
+                                Message.error('获取上传签名失败');
+                                this.uploading = false;
+                                reject(error);
                             });
                         }
                     },
-                    () => {
-                        return reject();
+                    (error) => {
+                        console.error('图片解析失败:', error);
+                        Message.error('图片文件解析失败');
+                        this.uploading = false;
+                        return reject(error);
                     }
                 );
             });
@@ -108,7 +123,8 @@ export default {
         onUploadProgress(e) {
             this.uploadProgress = Math.floor((e.loaded / e.total) * 100);
         },
-        onUploadSuccess() {
+        onUploadSuccess(response) {
+            console.log('上传成功响应:', response);
             setTimeout(() => {
                 this.uploading = false;
                 this.$emit('input', this.result);
@@ -117,8 +133,9 @@ export default {
                 this.$refs.upload.clearFiles();
             }, 1000);
         },
-        onUploadError() {
-            Message.error('上传错误！');
+        onUploadError(error, response, file) {
+            console.error('上传失败:', error, response, file);
+            Message.error('上传错误：' + (response ? response.message || '服务器响应异常' : '网络连接失败'));
             this.uploading = false;
             this.result = null;
             this.$emit('input', '');

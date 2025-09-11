@@ -21,7 +21,7 @@
         <slot name="value" />
         <slot name="right-icon" slot="right-icon" />
     </cw-cell>
-    <view class="{{ utils.bem('collapse-item__wrapper') }}" style="height: 0" animation="{{ animation }}">
+    <view class="{{ utils.bem('collapse-item__wrapper') }}" style="height: 0;" animation="{{ animation }}">
         <view class="cw-collapse-item__content content-class">
             <slot />
         </view>

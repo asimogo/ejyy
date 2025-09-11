@@ -13,7 +13,9 @@
             class="{{ item.titleClass }} {{ utils.bem('dropdown-menu__title', { active: item.showPopup, down: item.showPopup === (direction === 'down') }) }}"
             style="{{ item.showPopup ? 'color:' + activeColor : '' }}"
         >
-            <view class="cw-ellipsis">{{ computed.displayTitle(item) }}</view>
+            <view class="cw-ellipsis">
+                {{ computed.displayTitle(item) }}
+            </view>
         </view>
     </view>
 

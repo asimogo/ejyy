@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024  All rights reserved.
+ * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: 
+ * | Author: contact@chowa.cn
  * +----------------------------------------------------------------------
  */
 
@@ -48,7 +48,7 @@ export default function Notify(options) {
     }
     console.warn('未找到 cw-notify 节点，请确认 selector 及 context 是否正确');
 }
-Notify.clear = function (options) {
+Notify.clear = function(options) {
     options = Object.assign(Object.assign({}, defaultOptions), parseOptions(options));
     const context = options.context || getContext();
     const notify = context.selectComponent(options.selector);

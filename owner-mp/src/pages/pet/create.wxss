@@ -3,6 +3,14 @@
     padding-bottom: calc(env(safe-area-inset-bottom) + 44px);
 }
 
+.upload-title {
+    flex: none !important;
+}
+
+.upload-cell {
+    flex: auto !important;
+}
+
 .photo {
     display: flex;
     flex-direction: row;

@@ -1,0 +1,23 @@
+page { height: 100%; background: #f7f8fa; }
+
+.container { height: 100%; display: flex; flex-direction: column; }
+
+.header { padding: 40rpx 40rpx 20rpx; background: #fff; border-bottom: 1rpx solid #ebedf0; }
+
+.title { font-size: 36rpx; font-weight: 600; color: #323233; }
+
+.options { flex: 1; padding: 40rpx 0; }
+
+.option-item { position: relative; display: flex; align-items: center; padding: 40rpx; margin: 0 40rpx 20rpx; background: #fff; border-radius: 20rpx; box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1); }
+.option-item:active { background: #f2f3f5; }
+
+.option-icon { width: 80rpx; height: 80rpx; margin-right: 30rpx; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.option-icon.wechat { background: #e8f3ff; }
+.option-icon .icon { width: 48rpx; height: 48rpx; }
+
+.option-content { flex: 1; }
+.option-title { display: block; font-size: 32rpx; font-weight: 600; color: #323233; margin-bottom: 8rpx; }
+.option-desc { display: block; font-size: 26rpx; color: #969799; }
+
+.transparent-button { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; border: none; outline: none; }
+.transparent-button::after { border: none; }

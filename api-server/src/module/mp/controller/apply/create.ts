@@ -51,7 +51,7 @@ const MpApplyCreateAction = <Action>{
             },
             {
                 name: 'subscribed',
-                required: true,
+                required: false,//开发期全部为false
                 regex: /^0|1$/
             }
         ]

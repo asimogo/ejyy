@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024  All rights reserved.
+ * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: 
+ * | Author: contact@chowa.cn
  * +----------------------------------------------------------------------
  */
 
@@ -35,6 +35,13 @@ App({
     },
 
     onShow(opts) {
+        console.log('App onShow:', {
+            path: opts.path,
+            query: opts.query,
+            isLogin: utils.storage.isLogin(),
+            token: utils.storage.token()
+        });
+        
         if (utils.storage.isLogin()) {
             this.getUserInfo();
         } else {
@@ -43,7 +50,8 @@ App({
                 query.push(`${key}=${opts.query[key]}`);
             }
             const redirect = encodeURIComponent(`/${opts.path}${query.length ? '?' : ''}${query.join('&')}`);
-
+            
+            console.log('未登录，跳转登录页面:', `/pages/login/index?redirect=${redirect}`);
             return wx.redirectTo({
                 url: `/pages/login/index?redirect=${redirect}`
             });
@@ -93,7 +101,16 @@ App({
     },
 
     adaptive() {
-        const systemInfo = wx.getSystemInfoSync();
+        // 使用新的API替代废弃的wx.getSystemInfoSync
+        const deviceInfo = wx.getDeviceInfo();
+        const windowInfo = wx.getWindowInfo();
+        const appBaseInfo = wx.getAppBaseInfo();
+        
+        const systemInfo = {
+            ...deviceInfo,
+            ...windowInfo,
+            ...appBaseInfo
+        };
 
         // 导航胶囊
         const { top, height } = wx.getMenuButtonBoundingClientRect();
@@ -125,18 +142,18 @@ App({
                     communityInfo: res.data.communityInfo,
                     globalFetching: false
                 });
-                var pages = getCurrentPages(); //获取加载的页面
-                var currentPage = pages[pages.length - 1].route; //获取当前页面的对象 修改数量可以获取之前跳转页面的地址
+                var pages = getCurrentPages() //获取加载的页面
+                var currentPage = pages[pages.length - 1].route //获取当前页面的对象 修改数量可以获取之前跳转页面的地址
                 if (currentPage !== 'pages/zone/avatar') {
-                    if (!res.data.userInfo.intact) {
-                        wx.redirectTo({
-                            url: '/pages/zone/supplement'
-                        });
-                    } else if (res.data.communityInfo.list.length === 0) {
-                        wx.redirectTo({
-                            url: '/pages/community/binding'
-                        });
-                    }
+                  if (!res.data.userInfo.intact) {
+                    wx.redirectTo({
+                        url: '/pages/zone/supplement'
+                    });
+                  } else if (res.data.communityInfo.list.length === 0) {
+                      wx.redirectTo({
+                          url: '/pages/community/binding'
+                      });
+                  }
                 }
             });
     },

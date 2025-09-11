@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024  All rights reserved.
+ * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: 
+ * | Author: contact@chowa.cn
  * +----------------------------------------------------------------------
  */
 
@@ -18,7 +18,7 @@ import { useChildren } from '../common/relation';
 CwComponent({
     mixins: [touch],
     classes: ['nav-class', 'tab-class', 'tab-active-class', 'line-class'],
-    relation: useChildren('tab', function () {
+    relation: useChildren('tab', function() {
         this.updateTabs();
     }),
     props: {

@@ -12,6 +12,7 @@
         "cw-icon": "../../components/icon",
         "cw-radio": "../../components/radio",
         "cw-radio-group": "../../components/radio-group",
-        "cw-calendar": "../../components/calendar"
+        "cw-calendar": "../../components/calendar",
+        "cw-uploader": "../../components/uploader"
     }
 }

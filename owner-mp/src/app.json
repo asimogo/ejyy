@@ -42,7 +42,6 @@
         "pages/pet/index",
         "pages/pet/create",
         "pages/pet/detail",
-        "pages/pet/photo",
         "pages/fitment/index",
         "pages/fitment/create",
         "pages/fitment/detail",
@@ -59,6 +58,7 @@
         "pages/questionnaire/detail",
         "pages/questionnaire/self",
         "pages/topic/detail",
+        "pages/webmap/index",
         "pages/community/apply",
         "pages/service/index"
     ],

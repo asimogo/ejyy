@@ -54,8 +54,19 @@
 
     <view class="fill-btn" bindtap="useWechatInfo">使用微信公开信息填充？</view>
 
-    <cw-button custom-class="btn" block loading="{{submiting}}" type="info" bind:click="save">提交</cw-button>
+    <cw-button custom-class="btn" block loading="{{submiting}}" type="info" bind:click="save">
+        提交
+    </cw-button>
     <cw-copyright />
     <cw-toast id="cw-toast" />
     <cw-notify id="cw-notify" />
+
+    <!-- 头像选择底部弹出 -->
+    <view class="avatar-sheet__mask {{ avatarSheetIn ? 'in' : '' }}" wx:if="{{showAvatarSheet}}" catchtap="closeAvatarSheet"></view>
+    <view class="avatar-sheet {{ avatarSheetIn ? 'in' : '' }}" wx:if="{{showAvatarSheet}}">
+        <button class="avatar-sheet__item wechat" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar" disabled="{{uploadingAvatar}}">用微信头像</button>
+        <view class="avatar-sheet__item" bindtap="chooseFromAlbum">从相册选择</view>
+        <view class="avatar-sheet__item" bindtap="takePhoto">拍照</view>
+        <view class="avatar-sheet__cancel" bindtap="closeAvatarSheet">取消</view>
+    </view>
 </view>

@@ -53,7 +53,9 @@
         </cw-cell>
     </cw-cell-group>
 
-    <cw-button custom-class="btn" block loading="{{submiting}}" type="info" bind:click="save">提交</cw-button>
+    <cw-button custom-class="btn" block loading="{{submiting}}" type="info" bind:click="save">
+        提交
+    </cw-button>
     <cw-copyright />
     <cw-toast id="cw-toast" />
     <cw-notify id="cw-notify" />

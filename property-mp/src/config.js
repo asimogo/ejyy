@@ -10,9 +10,9 @@
  * +----------------------------------------------------------------------
  */
 
-export const API_HOST = 'localhost:6688';
+export const API_HOST = 'https://api.bmoceo.com';
 
-export const ASSETS_HOST = 'localhost:6688';
+export const ASSETS_HOST = 'https://ejyyrc-cambodia.oss-ap-southeast-1.aliyuncs.com';
 
 export const TOKEN_NAME = 'EJYY-TOKEN';
 

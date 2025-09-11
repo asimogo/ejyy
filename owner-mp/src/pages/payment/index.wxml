@@ -18,8 +18,12 @@
             url="/pages/payment/detail?id={{item.id}}"
             useFooterSlot="{{curStamp - payExpire < item.created_at && !item.cancel && !item.paid}}"
         >
-            <cw-list-item-info label="缴费年度">{{item.start_year}}至{{item.end_year}}年</cw-list-item-info>
-            <cw-list-item-info label="缴费金额">{{payment.yuan(item.fee)}}元</cw-list-item-info>
+            <cw-list-item-info label="缴费年度">
+                {{item.start_year}}至{{item.end_year}}年
+            </cw-list-item-info>
+            <cw-list-item-info label="缴费金额">
+                {{payment.yuan(item.fee)}}元
+            </cw-list-item-info>
             <cw-list-item-info label="订单状态">
                 <block wx:if="{{item.cancel}}">
                     <cw-tag round color="#ff9900">已取消</cw-tag>
@@ -46,7 +50,9 @@
             <cw-list-item-info label="交易单号" wx:if="{{item.transaction_id}}">
                 {{item.transaction_id}}
             </cw-list-item-info>
-            <cw-list-item-info label="订单时间">{{common.date(item.created_at)}}</cw-list-item-info>
+            <cw-list-item-info label="订单时间">
+                {{common.date(item.created_at)}}
+            </cw-list-item-info>
 
             <view slot="footer">
                 <cw-button size="small" round type="warning" data-id="{{item.order_id}}" catch:tap="cancelOrder">

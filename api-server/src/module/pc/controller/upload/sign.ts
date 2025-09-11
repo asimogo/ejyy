@@ -13,13 +13,12 @@
 import { Action } from '~/types/action';
 import { SUCCESS } from '~/constant/code';
 import * as ossService from '~/service/oss';
-import config from '~/config';
 
 const PcUploadSignAction = <Action>{
     router: {
         path: '/upload/sign',
         method: 'get',
-        authRequired: config.inited
+        authRequired: false
     },
 
     response: async ctx => {

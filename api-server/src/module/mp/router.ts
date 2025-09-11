@@ -16,6 +16,7 @@ export { default as MpUserBindPhoneAction } from './controller/user/bind_phone';
 export { default as MpUserProfileAction } from './controller/user/profile';
 export { default as MpUserSupplementAction } from './controller/user/supplement';
 export { default as MpUserCardAction } from './controller/user/card';
+export { default as MpUserUpdateAvatarAction } from './controller/user/update_avatar';
 
 export { default as MpCommunityBindingBySlefAction } from './controller/community/binding_by_self';
 export { default as MpCommunityBindingByPropertyAction } from './controller/community/binding_by_property';

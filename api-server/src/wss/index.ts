@@ -64,7 +64,27 @@ class ws {
             }
 
             ws.user_id = userInfo.id;
-            ws.access = userInfo.content;
+            // 统一将 access 规范为 Role[]，防止为 null 或字符串导致 .includes 崩溃
+            try {
+                let access: any = (userInfo as any).content;
+
+                if (typeof access === 'string' && access.length) {
+                    try {
+                        access = JSON.parse(access);
+                    } catch (_) {
+                        // 兼容逗号分隔的存储格式
+                        access = access.split(',').map((x: string) => Number(x.trim())).filter((x: any) => !Number.isNaN(x));
+                    }
+                }
+
+                if (!Array.isArray(access)) {
+                    access = [];
+                }
+
+                ws.access = access as Role[];
+            } catch (_) {
+                ws.access = [];
+            }
         });
     }
 
@@ -74,8 +94,16 @@ class ws {
         }
 
         this.ws.clients.forEach((client: CwWebSocket) => {
-            if (client.readyState === WebSocket.OPEN && client.access.includes(data.type)) {
-                client.send(JSON.stringify(data));
+            try {
+                if (client.readyState !== WebSocket.OPEN) return;
+
+                const access = Array.isArray(client.access) ? client.access : [];
+
+                if (access.includes(data.type) || access.includes(Role.ANYONE)) {
+                    client.send(JSON.stringify(data));
+                }
+            } catch (err) {
+                console.error('WS sendToPc error:', (err as Error).message);
             }
         });
     }

@@ -30,7 +30,7 @@ function serializer(args) {
 function memoize(fn) {
     var cache = {};
 
-    return function () {
+    return function() {
         var key = serializer(arguments);
         if (cache[key] === undefined) {
             cache[key] = call(fn, arguments);

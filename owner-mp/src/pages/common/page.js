@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024  All rights reserved.
+ * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: 
+ * | Author: contact@chowa.cn
  * +----------------------------------------------------------------------
  */
 
@@ -25,12 +25,6 @@ function CwPage(cwOptions = {}) {
         //     formFields: [],
         //     formRule: {}
         // },
-        bridge: {
-            updateData: app.updateData,
-            getUserInfo: app.getUserInfo,
-            on: app.on,
-            off: app.off
-        },
         // 用户信息和住宅信息更新时调用
         // onGlobalDataUpdate: () => {},
         onReady() {
@@ -60,6 +54,14 @@ function CwPage(cwOptions = {}) {
             }
         },
         onLoad(opts) {
+            // 在onLoad中设置bridge对象，直接绑定到this上
+            this.bridge = {
+                updateData: app.updateData,
+                getUserInfo: app.getUserInfo,
+                on: app.on,
+                off: app.off
+            };
+            
             if (typeof cwOptions.onLoad === 'function') {
                 cwOptions.onLoad.call(this, opts);
             }

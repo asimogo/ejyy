@@ -118,7 +118,7 @@ const MpComplainCreateAction = <Action>{
             dispose_subscribed,
             confrim_subscribed,
             finish_subscribed,
-            complain_imgs: complain_imgs.join('#'),
+            complain_imgs: complain_imgs && complain_imgs.length ? complain_imgs.join('#') : null,
             step: SUBMIT_COMPLAIN_STEP,
             created_at: Date.now()
         });

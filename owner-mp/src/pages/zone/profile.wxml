@@ -1,7 +1,7 @@
 <view class="container">
     <view class="avatar-wrapper" bindtap="selectImage">
-        <image class="avatar" src="{{ASSETS_HOST + avatar_url}}" mode="scaleToFill" />
-        <view class="txt">设置头像</view>
+        <image class="avatar" src="{{avatarDisplayUrl}}" mode="scaleToFill" />
+        <view class="txt">更换头像</view>
     </view>
 
     <cw-cell-group>
@@ -24,7 +24,18 @@
         />
     </cw-cell-group>
 
-    <cw-button custom-class="btn" block loading="{{submiting}}" type="info" bind:click="save">修改个人资料</cw-button>
+    <cw-button custom-class="btn" block loading="{{submiting}}" type="info" bind:click="save">
+        修改个人资料
+    </cw-button>
     <cw-copyright />
     <cw-toast id="cw-toast" />
+
+    <!-- 头像选择底部弹出 -->
+    <view class="avatar-sheet__mask {{ avatarSheetIn ? 'in' : '' }}" wx:if="{{showAvatarSheet}}" catchtap="closeAvatarSheet"></view>
+    <view class="avatar-sheet {{ avatarSheetIn ? 'in' : '' }}" wx:if="{{showAvatarSheet}}">
+        <button class="avatar-sheet__item wechat" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar" disabled="{{uploadingAvatar}}">用微信头像</button>
+        <view class="avatar-sheet__item" bindtap="chooseFromAlbum">从相册选择</view>
+        <view class="avatar-sheet__item" bindtap="takePhoto">拍照</view>
+        <view class="avatar-sheet__cancel" bindtap="closeAvatarSheet">取消</view>
+    </view>
 </view>

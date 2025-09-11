@@ -533,10 +533,11 @@ export default {
             for (var i = 0; i < data.length; i++) {
                 ia[i] = data.charCodeAt(i);
             }
-            const file = new Blob([ia], {
+            const filename = `${Date.now()}.jpg`;
+            const file = new File([ia], filename, {
                 type: 'image/jpeg'
             });
-            file.name = `${Date.now()}.jpg`;
+            console.log('创建的文件信息:', { name: file.name, type: file.type, size: file.size });
             return file;
         },
         confirm() {

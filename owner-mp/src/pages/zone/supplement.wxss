@@ -63,3 +63,40 @@
     bottom: env(safe-area-inset-bottom);
     z-index: 50;
 }
+
+/* 头像选择底部弹出样式与动画 */
+.avatar-sheet__mask {
+  position: fixed;
+  left: 0; right: 0; top: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  opacity: 0;
+  transition: opacity .2s ease;
+  z-index: 999;
+}
+
+.avatar-sheet {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  background: #f7f8fa;
+  padding: 16rpx 24rpx calc(16rpx + env(safe-area-inset-bottom));
+  box-shadow: 0 -8rpx 24rpx rgba(0,0,0,0.08);
+  z-index: 1000;
+  transform: translateY(100%);
+  opacity: 0.98;
+  transition: transform .2s ease;
+}
+
+.avatar-sheet__item, .avatar-sheet__cancel {
+  background: #fff;
+  margin: 16rpx 0;
+  padding: 28rpx;
+  text-align: center;
+  border-radius: 16rpx;
+  font-size: 30rpx;
+}
+
+.avatar-sheet__item.wechat { color: #1989fa; }
+.avatar-sheet__item:active, .avatar-sheet__cancel:active { background: #f2f3f5; }
+.avatar-sheet button { border: none; }
+.avatar-sheet__mask.in { opacity: 1; }
+.avatar-sheet.in { transform: translateY(0); }

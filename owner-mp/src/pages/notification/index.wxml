@@ -28,7 +28,9 @@
                                     <view class="message-scope">
                                         通知范围：{{ item.scope ? item.scope + '小区' : '全体业主' }}
                                     </view>
-                                    <view class="message-preview">{{ item.overview }}</view>
+                                    <view class="message-preview">
+                                        {{ item.overview }}
+                                    </view>
 
                                     <view class="message-unread" wx:if="{{ !item.readed }}">未读</view>
                                 </view>
@@ -69,7 +71,9 @@
                                     <view class="message-scope">
                                         通知范围：{{ item.scope ? item.scope + '小区' : '全体业主' }}
                                     </view>
-                                    <view class="message-preview">{{ item.overview }}</view>
+                                    <view class="message-preview">
+                                        {{ item.overview }}
+                                    </view>
                                 </view>
                                 <view class="message-footer">
                                     <text>立即查看</text>

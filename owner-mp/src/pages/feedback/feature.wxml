@@ -29,7 +29,9 @@
         <view class="item">发布恶意、不实信息将会冻结账号。</view>
     </view>
 
-    <cw-button custom-class="btn" loading="{{submiting}}" block type="info" bind:click="save">提交功能建议</cw-button>
+    <cw-button custom-class="btn" loading="{{submiting}}" block type="info" bind:click="save">
+        提交功能建议
+    </cw-button>
     <cw-copyright />
     <cw-notify id="cw-notify" />
     <cw-toast id="cw-toast" />

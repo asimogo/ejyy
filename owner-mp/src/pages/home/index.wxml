@@ -199,7 +199,9 @@
                 </view>
             </block>
             <block wx:else>
-                <view class="notice-empty" wx:if="{{notice.length === 0}}">暂无通知消息</view>
+                <view class="notice-empty" wx:if="{{notice.length === 0}}">
+                    暂无通知消息
+                </view>
                 <block wx:else>
                     <navigator
                         class="notice-item"
@@ -223,7 +225,9 @@
                 <view class="virus-item">
                     <view class="type">境外输入</view>
                     <cw-skeleton row="{{ 1 }}" row-class="virus-loading" loading="{{ fetching }}" />
-                    <view class="amount virus-input" wx:if="{{ !fetching }}">{{ virus.total.input }}</view>
+                    <view class="amount virus-input" wx:if="{{ !fetching }}">
+                        {{ virus.total.input }}
+                    </view>
                     <view class="increase">
                         较昨日
                         <view wx:if="{{ !virus.today.input && virus.today.input !== 0 }}">待公布</view>
@@ -238,7 +242,9 @@
                 <view class="virus-item">
                     <view class="type">无症状感染者</view>
                     <cw-skeleton row="{{ 1 }}" row-class="virus-loading" loading="{{ fetching }}" />
-                    <view class="amount virus-confirm" wx:if="{{ !fetching }}">{{ virus.extData.noSymptom }}</view>
+                    <view class="amount virus-confirm" wx:if="{{ !fetching }}">
+                        {{ virus.extData.noSymptom }}
+                    </view>
                     <view class="increase">
                         较昨日
                         <view wx:if="{{ !virus.extData.incrNoSymptom && virus.extData.incrNoSymptom !== 0 }}">
@@ -260,7 +266,9 @@
                     </view>
                     <view class="increase">
                         较昨日
-                        <view wx:if="{{ !virus.today.storeConfirm && virus.today.storeConfirm !== 0 }}">待公布</view>
+                        <view wx:if="{{ !virus.today.storeConfirm && virus.today.storeConfirm !== 0 }}">
+                            待公布
+                        </view>
                         <view class="virus-today-confirm" wx:else>
                             {{ virus.today.storeConfirm >= 0 ? '+' : '' }}{{ virus.today.storeConfirm }}
                         </view>
@@ -273,7 +281,9 @@
                 <view class="virus-item">
                     <view class="type">累计确诊</view>
                     <cw-skeleton row="{{ 1 }}" row-class="virus-loading" loading="{{ fetching }}" />
-                    <view class="amount virus-confirm" wx:if="{{ !fetching }}">{{ virus.total.confirm }}</view>
+                    <view class="amount virus-confirm" wx:if="{{ !fetching }}">
+                        {{ virus.total.confirm }}
+                    </view>
                     <view class="increase">
                         较昨日
                         <view wx:if="{{ !virus.today.confirm && virus.today.confirm !== 0 }}">待公布</view>
@@ -292,7 +302,9 @@
                     <view class="increase">
                         较昨日
                         <view wx:if="{{ !virus.today.dead && virus.today.dead !== 0 }}">待公布</view>
-                        <view wx:else>{{ virus.today.dead >= 0 ? '+' : '' }}{{ virus.today.dead }}</view>
+                        <view wx:else>
+                            {{ virus.today.dead >= 0 ? '+' : '' }}{{ virus.today.dead }}
+                        </view>
                     </view>
                 </view>
             </cw-col>
@@ -301,7 +313,9 @@
                 <view class="virus-item">
                     <view class="type">累计治愈</view>
                     <cw-skeleton row="{{ 1 }}" row-class="virus-loading" loading="{{ fetching }}" />
-                    <view class="amount virus-heal" wx:if="{{ !fetching }}">{{ virus.total.heal }}</view>
+                    <view class="amount virus-heal" wx:if="{{ !fetching }}">
+                        {{ virus.total.heal }}
+                    </view>
                     <view class="increase">
                         较昨日
                         <view wx:if="{{ !virus.today.heal && virus.today.heal !== 0 }}">待公布</view>

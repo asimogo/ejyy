@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024  All rights reserved.
+ * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: 
+ * | Author: contact@chowa.cn
  * +----------------------------------------------------------------------
  */
 
@@ -37,13 +37,16 @@ function ossHeaders() {
 }
 
 export default filename => {
+    console.log('OSS 获取签名开始，文件名:', filename);
     now = Date.now();
 
     if (expire < now + 3) {
+        console.log('需要获取新的OSS签名');
         return request({
             url: '/upload/sign',
             method: 'get'
         }).then(res => {
+            console.log('OSS签名请求成功:', res);
             policy = res.data.policy;
             accessid = res.data.accessid;
             signature = res.data.signature;
@@ -52,12 +55,18 @@ export default filename => {
             dir = res.data.dir;
 
             setFileName(filename);
-
-            return ossHeaders();
+            const headers = ossHeaders();
+            console.log('OSS上传头信息:', headers);
+            return headers;
+        }).catch(err => {
+            console.error('获取OSS签名失败:', err);
+            throw err;
         });
     } else {
+        console.log('使用缓存的OSS签名');
         setFileName(filename);
-
-        return Promise.resolve(ossHeaders());
+        const headers = ossHeaders();
+        console.log('OSS上传头信息(缓存):', headers);
+        return Promise.resolve(headers);
     }
 };

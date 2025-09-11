@@ -43,7 +43,9 @@
         </cw-cell>
     </cw-cell-group>
 
-    <cw-button custom-class="btn" block loading="{{submiting}}" type="info" bind:click="submit">立即反馈</cw-button>
+    <cw-button custom-class="btn" block loading="{{submiting}}" type="info" bind:click="submit">
+        立即反馈
+    </cw-button>
 
     <cw-action-sheet
         title="反馈类型"

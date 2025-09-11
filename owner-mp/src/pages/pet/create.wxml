@@ -24,17 +24,13 @@
                 <cw-radio name="{{0}}">雌</cw-radio>
             </cw-radio-group>
         </cw-cell>
-        <cw-cell title="宠物照片">
-            <view class="photo">
-                <navigator url="/pages/pet/photo">
-                    <view class="uploader" wx:if="{{!photo}}">
-                        <cw-icon name="photograph" />
-                    </view>
-                    <view class="img" wx:else>
-                        <image src="{{ASSETS_HOST}}{{photo}}" mode="widthFix" />
-                    </view>
-                </navigator>
-            </view>
+        <cw-cell title="宠物照片" border="{{ false }}" title-class="upload-title" value-class="upload-cell">
+            <cw-uploader
+                file-list="{{uploadImgList}}"
+                bind:delete="deleteImg"
+                bind:after-read="afterRead"
+                max-count="{{1}}"
+            />
         </cw-cell>
         <cw-field
             label="宠物毛色"
@@ -89,7 +85,9 @@
         />
     </cw-cell-group>
 
-    <cw-button custom-class="btn" block loading="{{submiting}}" type="info" bind:click="save">提交</cw-button>
+    <cw-button custom-class="btn" block loading="{{submiting}}" type="info" bind:click="save">
+        提交
+    </cw-button>
     <cw-copyright />
     <cw-toast id="cw-toast" />
     <cw-notify id="cw-notify" />

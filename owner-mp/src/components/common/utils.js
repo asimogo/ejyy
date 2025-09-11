@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024  All rights reserved.
+ * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: 
+ * | Author: contact@chowa.cn
  * +----------------------------------------------------------------------
  */
 
@@ -27,7 +27,21 @@ export function nextTick(cb) {
 let systemInfo;
 export function getSystemInfoSync() {
     if (systemInfo == null) {
-        systemInfo = wx.getSystemInfoSync();
+        // 使用新的API替代废弃的wx.getSystemInfoSync
+        try {
+            const deviceInfo = wx.getDeviceInfo();
+            const windowInfo = wx.getWindowInfo();
+            const appBaseInfo = wx.getAppBaseInfo();
+            
+            systemInfo = {
+                ...deviceInfo,
+                ...windowInfo,
+                ...appBaseInfo
+            };
+        } catch (e) {
+            // 兼容性处理，如果新API不支持，回退到旧API
+            systemInfo = wx.getSystemInfoSync();
+        }
     }
     return systemInfo;
 }

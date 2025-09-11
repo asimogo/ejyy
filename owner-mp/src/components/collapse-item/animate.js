@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024  All rights reserved.
+ * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: 
+ * | Author: contact@chowa.cn
  * +----------------------------------------------------------------------
  */
 
@@ -48,7 +48,10 @@ function useAnimation(context, expanded, mounted, height) {
     });
     if (expanded) {
         if (height === 0) {
-            animation.height('auto').top(1).step();
+            animation
+                .height('auto')
+                .top(1)
+                .step();
         } else {
             animation
                 .height(height)
@@ -64,9 +67,14 @@ function useAnimation(context, expanded, mounted, height) {
         });
         return;
     }
-    animation.height(height).top(0).step({ duration: 1 }).height(0).step({
-        duration: 300
-    });
+    animation
+        .height(height)
+        .top(0)
+        .step({ duration: 1 })
+        .height(0)
+        .step({
+            duration: 300
+        });
     context.setData({
         animation: animation.export()
     });

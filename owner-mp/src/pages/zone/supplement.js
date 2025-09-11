@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020~2022  All rights reserved.
+ * | Copyright (c) 2020~2022 https://www.chowa.cn All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: 
+ * | Author: contact@chowa.cn
  * +----------------------------------------------------------------------
  */
 
@@ -29,7 +29,11 @@ CwPage({
         signature: '',
         avatar_url: '/avatar/default.png',
         // form data end
-        submiting: false
+        submiting: false,
+        // avatar choose sheet
+        showAvatarSheet: false,
+        avatarSheetIn: false,
+        uploadingAvatar: false
     },
     validator: {
         formFields: ['real_name', 'idcard', 'phone', 'nick_name', 'signature', 'avatar_url'],
@@ -42,13 +46,13 @@ CwPage({
                 { required: true, message: '请输入身份证号码' },
                 { pattern: /^\d{17}(x|X|\d){1}$/, message: '请输入正确的身份证号码' }
             ],
-            phone: [{ required: false, message: '请授权获取您的手机号码' }],
+            //phone: [{ required: true, message: '请授权获取您的手机号码' }],
             nick_name: [
                 { required: true, message: '请输入昵称' },
                 { max: 12, message: '昵称不能超过12个字' }
             ],
             signature: [
-                { required: false, message: '请输入签名' },
+                { required: true, message: '请输入签名' },
                 { max: 36, message: '昵称不能超过36个字' }
             ],
             avatar_url: [{ required: true, message: '请上传头像' }]
@@ -91,27 +95,6 @@ CwPage({
         });
     },
     getPhoneNumber(e) {
-        console.log('getPhoneNumber event detail:', e.detail);
-
-        if (!e.detail.iv || !e.detail.encryptedData) {
-            return $notify({
-                type: 'danger',
-                message: '请同意获取你的手机号码'
-            });
-        }
-
-        // 检查是否在开发者工具中
-        const systemInfo = wx.getSystemInfoSync();
-
-        if (systemInfo.platform === 'devtools') {
-            console.warn('在开发者工具中，获取手机号功能可能无法正常工作');
-            $notify({
-                type: 'warning',
-                message: '开发者工具中无法获取真实手机号，请在真机中测试'
-            });
-            return;
-        }
-
         $toast.loading({
             duration: 0,
             forbidClick: true,
@@ -145,9 +128,159 @@ CwPage({
             );
     },
     selectImage() {
-        wx.navigateTo({
-            url: '/pages/zone/avatar'
+        if (this.data.uploadingAvatar) return;
+        this.setData({ showAvatarSheet: true }, () => setTimeout(() => this.setData({ avatarSheetIn: true }), 0));
+    },
+    closeAvatarSheet() {
+        if (this.data.uploadingAvatar) return;
+        this.setData({ avatarSheetIn: false });
+        setTimeout(() => this.setData({ showAvatarSheet: false }), 220);
+    },
+    // 选择：用微信头像（chooseAvatar）
+    onChooseAvatar(e) {
+        if (this.data.uploadingAvatar) return;
+        const { avatarUrl } = e.detail || {};
+        if (!avatarUrl) return;
+
+        const isLocalPath = p => typeof p === 'string' && (p.startsWith('wxfile://') || p.startsWith('http://tmp/') || p.startsWith('https://tmp/'));
+        $toast.loading({ duration: 0, forbidClick: true, message: '设置中…' });
+
+        const computeFileHash = (filePath) => new Promise((resolve) => {
+            if (wx.getFileInfo) {
+                wx.getFileInfo({
+                    filePath,
+                    digestAlgorithm: 'md5',
+                    success: res => resolve(res.digest),
+                    fail: () => {
+                        utils.file.md5(filePath).then(resolve).catch(() => resolve(String(Date.now())));
+                    }
+                });
+            } else {
+                utils.file.md5(filePath).then(resolve).catch(() => resolve(String(Date.now())));
+            }
         });
+
+        const proceedWithFile = (filePath) => {
+            this.setData({ uploadingAvatar: true });
+            computeFileHash(filePath)
+                .then(hash => utils.oss(`avatar/${hash}${utils.file.ext(filePath)}`))
+                .then(sign => new Promise((resolve, reject) => {
+                    wx.uploadFile({
+                        url: sign.host,
+                        filePath,
+                        name: 'file',
+                        formData: sign,
+                        success: () => resolve(sign.key),
+                        fail: reject
+                    });
+                }))
+                .then(key => {
+                    const avatarPath = key.startsWith('/') ? key : `/${key}`;
+                    this.setData({ avatar_url: avatarPath, uploadingAvatar: false }, () => {
+                        $toast.clear();
+                        this.closeAvatarSheet();
+                    });
+                })
+                .catch(err => {
+                    console.error('设置微信头像失败:', err);
+                    $toast.clear();
+                    $toast({ message: '头像设置失败，请重试' });
+                    this.setData({ uploadingAvatar: false });
+                });
+        };
+
+        if (isLocalPath(avatarUrl)) {
+            return proceedWithFile(avatarUrl);
+        }
+
+        wx.getImageInfo({
+            src: avatarUrl,
+            success: info => proceedWithFile(info.path),
+            fail: () => {
+                wx.downloadFile({
+                    url: avatarUrl,
+                    success: res => proceedWithFile(res.tempFilePath),
+                    fail: () => {
+                        $toast.clear();
+                        $toast({ message: '下载微信头像失败' });
+                    }
+                });
+            }
+        });
+    },
+    // 选择：从相册选择
+    chooseFromAlbum() {
+        if (this.data.uploadingAvatar) return;
+        const handlePath = (p) => this._uploadAvatarFromFile(p);
+        if (wx.chooseMedia) {
+            wx.chooseMedia({ count: 1, mediaType: ['image'], sizeType: ['compressed'], sourceType: ['album'],
+                success: res => handlePath(res.tempFiles[0].tempFilePath)
+            });
+        } else {
+            wx.chooseImage({ count: 1, sizeType: ['compressed'], sourceType: ['album'],
+                success: res => handlePath(res.tempFilePaths[0])
+            });
+        }
+    },
+    // 选择：拍照
+    takePhoto() {
+        if (this.data.uploadingAvatar) return;
+        const handlePath = (p) => this._uploadAvatarFromFile(p);
+        if (wx.chooseMedia) {
+            wx.chooseMedia({ count: 1, mediaType: ['image'], sizeType: ['compressed'], sourceType: ['camera'],
+                success: res => handlePath(res.tempFiles[0].tempFilePath)
+            });
+        } else {
+            wx.chooseImage({ count: 1, sizeType: ['compressed'], sourceType: ['camera'],
+                success: res => handlePath(res.tempFilePaths[0])
+            });
+        }
+    },
+    // 通用上传流程
+    _uploadAvatarFromFile(filePath) {
+        $toast.loading({ duration: 0, forbidClick: true, message: '上传中…' });
+        this.setData({ uploadingAvatar: true });
+
+        const computeFileHash = (filePath) => new Promise((resolve) => {
+            if (wx.getFileInfo) {
+                wx.getFileInfo({
+                    filePath,
+                    digestAlgorithm: 'md5',
+                    success: res => resolve(res.digest),
+                    fail: () => {
+                        utils.file.md5(filePath).then(resolve).catch(() => resolve(String(Date.now())));
+                    }
+                });
+            } else {
+                utils.file.md5(filePath).then(resolve).catch(() => resolve(String(Date.now())));
+            }
+        });
+
+        computeFileHash(filePath)
+            .then(hash => utils.oss(`avatar/${hash}${utils.file.ext(filePath)}`))
+            .then(sign => new Promise((resolve, reject) => {
+                wx.uploadFile({
+                    url: sign.host,
+                    filePath,
+                    name: 'file',
+                    formData: sign,
+                    success: () => resolve(sign.key),
+                    fail: reject
+                });
+            }))
+            .then(key => {
+                const avatarPath = key.startsWith('/') ? key : `/${key}`;
+                this.setData({ avatar_url: avatarPath, uploadingAvatar: false }, () => {
+                    $toast.clear();
+                    this.closeAvatarSheet();
+                });
+            })
+            .catch(err => {
+                console.error('上传头像失败:', err);
+                $toast.clear();
+                $toast({ message: '上传失败，请稍后重试' });
+                this.setData({ uploadingAvatar: false });
+            });
     },
     useWechatInfo() {
         $toast.loading({
@@ -169,36 +302,26 @@ CwPage({
                         utils.file.md5(res.tempFilePath).then(hash => {
                             const fileName = `avatar/${hash}${utils.file.ext(res.tempFilePath)}`;
 
-                            return utils.oss(fileName).then(sign => {
-                                return new Promise((resolve, reject) => {
-                                    wx.uploadFile({
-                                        url: sign.host,
-                                        filePath: res.tempFilePath,
-                                        name: 'file',
-                                        formData: sign,
-                                        success: (uploadRes) => {
-                                            if (uploadRes.statusCode === 200) {
-                                                this.setData({
-                                                    avatar_url: `/${sign.key}`
-                                                });
-                                                $toast.clear();
-                                                resolve(uploadRes);
-                                            } else {
-                                                reject(new Error('上传失败'));
-                                            }
-                                        },
-                                        fail: (err) => {
-                                            reject(err);
-                                        }
-                                    });
+                            utils.oss(fileName).then(sign => {
+                                wx.uploadFile({
+                                    url: sign.host,
+                                    filePath: res.tempFilePath,
+                                    name: 'file',
+                                    formData: sign,
+                                    success: () => {
+                                        this.setData({
+                                            avatar_url: `/${sign.key}`
+                                        });
+                                        $toast.clear();
+                                    },
+                                    fail: res => {
+                                        $toast.clear();
+                                        $notify({
+                                            type: 'danger',
+                                            message: '获取微信头像失败'
+                                        });
+                                    }
                                 });
-                            });
-                        }).catch(error => {
-                            console.error('获取微信头像失败:', error);
-                            $toast.clear();
-                            $notify({
-                                type: 'danger',
-                                message: '获取微信头像失败'
                             });
                         });
                     },

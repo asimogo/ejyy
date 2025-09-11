@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024  All rights reserved.
+ * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: 
+ * | Author: contact@chowa.cn
  * +----------------------------------------------------------------------
  */
 
@@ -15,8 +15,16 @@ import * as storage from './storage';
 
 function request({ url, data, method }) {
     return new Promise((resolve, reject) => {
+        const requestUrl = `${config.API_HOST}/mp${url}`;
+        console.log('发起请求:', {
+            url: requestUrl,
+            method,
+            data,
+            token: storage.token()
+        });
+        
         wx.request({
-            url: `${config.API_HOST}/mp${url}`,
+            url: requestUrl,
             header: {
                 ['ejyy-mp-token']: storage.token(),
                 ['wechat-mp-request']: true
@@ -25,11 +33,16 @@ function request({ url, data, method }) {
             dataType: 'json',
             method,
             success: res => {
+                console.log('请求响应:', {
+                    url: requestUrl,
+                    statusCode: res.statusCode,
+                    data: res.data
+                });
                 if (res.statusCode === 401) {
                     storage.logout();
                     const pages = getCurrentPages();
 
-                    if (pages.length === 0) {
+                    if (pages.length > 0) {
                         const { route, options } = pages[pages.length - 1];
                         const query = [];
                         for (let key in options) {
@@ -91,6 +104,10 @@ function request({ url, data, method }) {
                 }
             },
             fail: res => {
+                console.log('请求失败:', {
+                    url: requestUrl,
+                    error: res
+                });
                 reject({ message: res.errMsg });
             }
         });

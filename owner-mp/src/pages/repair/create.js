@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024  All rights reserved.
+ * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: 
+ * | Author: contact@chowa.cn
  * +----------------------------------------------------------------------
  */
 
@@ -48,7 +48,7 @@ CwPage({
             description: [
                 { required: true, message: '请输入问题描述' },
                 { min: 5, message: '问题描述应大于5个字' },
-                { max: 200, message: '问题描述不能超过5个字' }
+                { max: 200, message: '问题描述不能超过200个字' }
             ]
         }
     },
@@ -213,54 +213,53 @@ CwPage({
                             method: 'get'
                         })
                         .then(({ data: tpls }) => {
-                            const values = Object.values(tpls);
-                            const keys = Object.keys(tpls);
+                            const entries = Object.entries(tpls);
+                            const keys = entries.map(([k]) => k);
+                            const values = entries.map(([, tpl]) => tpl);
+                            const validTpls = entries.filter(([, tpl]) => !!tpl).map(([, tpl]) => tpl);
                             const data = {};
                             let gloablSetting = false;
 
-                            // 全局设置啊啊啊
-                            if (res.subscriptionsSetting.mainSwitch && res.subscriptionsSetting.itemSettings) {
+                            // 默认置 0
+                            keys.forEach(k => (data[k] = 0));
+
+                            // 全局设置（系统层订阅项）
+                            if (res.subscriptionsSetting && res.subscriptionsSetting.itemSettings) {
                                 values.forEach((tpl, index) => {
-                                    if (tpl in res.subscriptionsSetting) {
-                                        data[keys[index]] =
-                                            res.subscriptionsSetting.itemSettings[tpl] === 'accept' ? 1 : 0;
+                                    if (tpl && tpl in res.subscriptionsSetting.itemSettings) {
+                                        data[keys[index]] = res.subscriptionsSetting.itemSettings[tpl] === 'accept' ? 1 : 0;
                                         gloablSetting = true;
-                                    } else {
-                                        data[keys[index]] = 0;
                                     }
                                 });
                             }
 
-                            if (gloablSetting) {
+                            // 已有全局设置或无有效模板时，直接提交
+                            if (gloablSetting || validTpls.length === 0) {
                                 send(data);
                             } else {
                                 wx.requestSubscribeMessage({
-                                    tmplIds: values,
+                                    tmplIds: validTpls,
                                     success: res => {
-                                        values.forEach((tpl, index) => {
-                                            data[keys[index]] = res[tpl] === 'accept' ? 1 : 0;
+                                        entries.forEach(([key, tpl]) => {
+                                            if (tpl) data[key] = res[tpl] === 'accept' ? 1 : 0;
                                         });
                                         send(data);
                                     },
+                                    // 订阅授权失败不再阻断提交，降级为不订阅直接提交
                                     fail: () => {
-                                        $toast.clear();
-                                        $notify({
-                                            type: 'danger',
-                                            message: '系统异常，请重试'
-                                        });
-                                        this.setData({ submiting: false });
+                                        send(data);
                                     }
                                 });
                             }
+                        }, () => {
+                            // 拉取模板失败不再阻断，直接提交（不订阅）
+                            send({});
                         });
                 },
+                // 获取设置失败也不阻断，直接提交（不订阅）
                 fail: () => {
-                    $toast.clear();
-                    $notify({
-                        type: 'danger',
-                        message: '系统异常，请重试'
-                    });
-                    this.setData({ submiting: false });
+                    // 继续提交，不弹错误
+                    send({});
                 }
             });
         });

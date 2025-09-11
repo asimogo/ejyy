@@ -1,18 +1,26 @@
 <view class="container">
-    <cw-image-cropper
-        id="cw-image-cropper"
-        limit_move="{{true}}"
-        disable_rotate="{{true}}"
-        disable_ratio="{{true}}"
-        width="{{200}}"
-        height="{{200}}"
-        min_width="{{100}}"
-        min_height="{{100}}"
-        export_scale="{{1}}"
-        bindload="cropperload"
-        bindimageload="loadimage"
-        bindtapcut="clickcut"
-    />
+    <view class="header">
+        <text class="title">设置头像</text>
+    </view>
+
+    <view class="options">
+        <view class="option-item">
+            <view class="option-icon wechat">
+                <cw-icon name="chowa" size="24" color="#1989fa" />
+            </view>
+            <view class="option-content">
+                <text class="option-title">使用微信头像</text>
+                <text class="option-desc">官方组件，裁剪便捷</text>
+            </view>
+            <button
+                class="option-button transparent-button"
+                open-type="chooseAvatar"
+                bind:chooseavatar="onChooseAvatar"
+            >
+            </button>
+        </view>
+    </view>
+
     <cw-toast id="cw-toast" />
     <cw-notify id="cw-notify" />
 </view>

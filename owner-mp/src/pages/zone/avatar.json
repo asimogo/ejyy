@@ -1,9 +1,10 @@
 {
-    "navigationBarTitleText": "头像裁剪",
-    "disableScroll": true,
+    "navigationBarTitleText": "设置头像",
+    "disableScroll": false,
     "usingComponents": {
+        "cw-button": "../../components/button",
+        "cw-icon": "../../components/icon",
         "cw-toast": "../../components/toast",
-        "cw-notify": "../../components/notify",
-        "cw-image-cropper": "../../components/image-cropper"
+        "cw-notify": "../../components/notify"
     }
 }

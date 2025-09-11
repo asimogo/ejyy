@@ -5,8 +5,5 @@
   "author": "contact@chowa.cn",
   "scripts": {
     "lint": "prettier --write src/*.js src/* src/**/* src/**/**/* src/**/**/**/* src/**/**/**/**/*"
-  },
-  "devDependencies": {
-    "prettier": "^2.8.0"
   }
 }

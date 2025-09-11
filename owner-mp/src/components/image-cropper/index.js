@@ -2,15 +2,40 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024  All rights reserved.
+ * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: 
+ * | Author: contact@chowa.cn
  * +----------------------------------------------------------------------
  */
 
 Component({
+    ready() {
+        const info = this.getSystemInfo();
+        this.setData({
+            info: info,
+            _img_top: info.windowHeight / 2,
+            _img_left: info.windowWidth / 2
+        });
+    },
+    methods: {
+        getSystemInfo() {
+            try {
+                const deviceInfo = wx.getDeviceInfo();
+                const windowInfo = wx.getWindowInfo();
+                const appBaseInfo = wx.getAppBaseInfo();
+                
+                return {
+                    ...deviceInfo,
+                    ...windowInfo,
+                    ...appBaseInfo
+                };
+            } catch (e) {
+                return wx.getSystemInfoSync();
+            }
+        }
+    },
     properties: {
         /**
          * 图片路径
@@ -167,7 +192,7 @@ Component({
     },
     data: {
         el: 'cw-image-cropper', //暂时无用
-        info: wx.getSystemInfoSync(),
+        info: null, // 将在ready中初始化
         MOVE_THROTTLE: null, //触摸移动节流settimeout
         MOVE_THROTTLE_FLAG: true, //节流标识
         INIT_IMGWIDTH: 0, //图片设置尺寸,此值不变（记录最初设定的尺寸）
@@ -190,8 +215,8 @@ Component({
         origin_x: 0.5, //图片旋转中心
         origin_y: 0.5, //图片旋转中心
         _cut_animation: false, //是否开启图片和裁剪框过渡
-        _img_top: wx.getSystemInfoSync().windowHeight / 2, //图片上边距
-        _img_left: wx.getSystemInfoSync().windowWidth / 2, //图片左边距
+        _img_top: 0, //图片上边距，将在ready中初始化
+        _img_left: 0, //图片左边距，将在ready中初始化
         watch: {
             //监听截取框宽高变化
             width(value, that) {
@@ -268,7 +293,7 @@ Component({
         }
     },
     attached() {
-        this.data.info = wx.getSystemInfoSync();
+        this.data.info = this.getSystemInfo();
 
         //启用数据监听
         this._watcher();
@@ -299,16 +324,45 @@ Component({
          */
         upload() {
             let that = this;
-            wx.chooseMedia({
+            console.log('开始选择图片');
+            
+            // 兼容性处理：优先使用新API，回退到旧API
+            if (wx.chooseMedia) {
+                wx.chooseMedia({
+                    count: 1,
+                    mediaType: ['image'],
+                    sizeType: ['original', 'compressed'],
+                    sourceType: ['album', 'camera'],
+                    success: res => {
+                        console.log('chooseMedia成功:', res);
+                        const tempFilePaths = res.tempFiles[0].tempFilePath;
+                        that.pushImg(tempFilePaths);
+                    },
+                    fail: err => {
+                        console.log('chooseMedia失败:', err);
+                        // 失败时尝试使用旧API
+                        that.chooseImageFallback();
+                    }
+                });
+            } else {
+                that.chooseImageFallback();
+            }
+        },
+        
+        chooseImageFallback() {
+            let that = this;
+            console.log('使用chooseImage');
+            wx.chooseImage({
                 count: 1,
-                mediaType: ['image'],
                 sizeType: ['original', 'compressed'],
                 sourceType: ['album', 'camera'],
                 success: res => {
-                    const tempFilePaths = res.tempFiles[0].tempFilePath;
+                    console.log('chooseImage成功:', res);
+                    const tempFilePaths = res.tempFilePaths[0];
                     that.pushImg(tempFilePaths);
                 },
-                fail: () => {
+                fail: err => {
+                    console.log('chooseImage失败:', err);
                     wx.navigateBack({ delta: 1 });
                 }
             });
@@ -479,7 +533,7 @@ Component({
          * 初始化图片，包括位置、大小、旋转角度
          */
         imgReset() {
-            const info = wx.getSystemInfoSync();
+            const info = this.getSystemInfo();
 
             this.setData({
                 scale: 1,

@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024  All rights reserved.
+ * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: 
+ * | Author: contact@chowa.cn
  * +----------------------------------------------------------------------
  */
 
@@ -33,6 +33,7 @@ CwPage({
         name: '',
         sex: '',
         photo: '',
+        uploadImgList: [],
         coat_color: '',
         breed: '',
         haveLicense: false,
@@ -141,6 +142,54 @@ CwPage({
         this.setData({
             vaccinated_at: +e.detail,
             accinateCalendarVisible: false
+        });
+    },
+    // 照片上传（对齐“维修维护”页逻辑）
+    deleteImg(e) {
+        this.setData({
+            uploadImgList: [],
+            photo: ''
+        });
+    },
+    afterRead(e) {
+        const { file } = e.detail;
+        const { ASSETS_HOST } = this.data;
+
+        $toast.loading({
+            duration: 0,
+            forbidClick: true,
+            message: '上传中…'
+        });
+
+        utils.file.md5(file.url).then(hash => {
+            const fileName = `pet/${hash}${utils.file.ext(file.url)}`;
+
+            utils.oss(fileName).then(sign => {
+                wx.uploadFile({
+                    url: sign.host,
+                    filePath: file.url,
+                    name: 'file',
+                    formData: sign,
+                    success: () => {
+                        $toast.clear();
+                        this.setData({
+                            uploadImgList: [
+                                {
+                                    url: `${ASSETS_HOST}/${sign.key}`
+                                }
+                            ],
+                            photo: `/${sign.key}`
+                        });
+                    },
+                    fail: () => {
+                        $toast.clear();
+                        $notify({
+                            type: 'danger',
+                            message: '上传图片失败，请重试'
+                        });
+                    }
+                });
+            });
         });
     },
     save() {

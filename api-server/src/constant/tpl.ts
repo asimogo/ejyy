@@ -11,34 +11,35 @@
  */
 
 import { TemplateMessage } from '~/types/content';
+import config from '~/config';
 
 // 小程序的
 // 报修 分配工单 确认工单 工单完成
-export const MP_REPAIR_ALLOT_TPL = '';
-export const MP_REPAIR_CONFIRM_TPL = '';
-export const MP_REPAIR_FINISH_TPL = '';
+export const MP_REPAIR_ALLOT_TPL = config.tpl.MP_REPAIR_ALLOT_TPL || '';
+export const MP_REPAIR_CONFIRM_TPL = config.tpl.MP_REPAIR_CONFIRM_TPL || '';
+export const MP_REPAIR_FINISH_TPL = config.tpl.MP_REPAIR_FINISH_TPL || '';
 
 // 投诉 分配工单 确认工单 工单完成
-export const MP_COMPLAIN_ALLOT_TPL = '';
-export const MP_COMPLAIN_CONFRIM_TPL = '';
-export const MP_COMPLAIN_FINISH_TPL = '';
+export const MP_COMPLAIN_ALLOT_TPL = config.tpl.MP_COMPLAIN_ALLOT_TPL || '';
+export const MP_COMPLAIN_CONFRIM_TPL = config.tpl.MP_COMPLAIN_CONFRIM_TPL || '';
+export const MP_COMPLAIN_FINISH_TPL = config.tpl.MP_COMPLAIN_FINISH_TPL || '';
 
 // 挪车
-export const MP_MOVE_CAR_TPL = '';
+export const MP_MOVE_CAR_TPL = config.tpl.MP_MOVE_CAR_TPL || '';
 
 // 业主认证的
-export const MP_OWNER_APPROVE = '';
+export const MP_OWNER_APPROVE = config.tpl.MP_OWNER_APPROVE || '';
 
 // 公众号的
 // 通知物业工单
-export const OA_NOTICE_TO_PROPERTY_COMPANY_USER = '';
+export const OA_NOTICE_TO_PROPERTY_COMPANY_USER = config.tpl.OA_NOTICE_TO_PROPERTY_COMPANY_USER || '';
 
 // 访客通知
-export const OA_NOTICE_TO_VISTOR = '';
+export const OA_NOTICE_TO_VISTOR = config.tpl.OA_NOTICE_TO_VISTOR || '';
 
 // 小区通知
 // 停水 1
-export const OA_NOTICE_COMMUNITY_USER_STOP_WATER = '';
+export const OA_NOTICE_COMMUNITY_USER_STOP_WATER = config.tpl.OA_NOTICE_COMMUNITY_USER_STOP_WATER || '';
 export const OA_NOTICE_COMMUNITY_USER_STOP_WATER_TPL: TemplateMessage = [
     {
         label: '',
@@ -72,7 +73,7 @@ export const OA_NOTICE_COMMUNITY_USER_STOP_WATER_TPL: TemplateMessage = [
     }
 ];
 // 停电 2
-export const OA_NOTICE_COMMUNITY_USER_STOP_ELECTRICITY = '';
+export const OA_NOTICE_COMMUNITY_USER_STOP_ELECTRICITY = config.tpl.OA_NOTICE_COMMUNITY_USER_STOP_ELECTRICITY || '';
 export const OA_NOTICE_COMMUNITY_USER_STOP_ELECTRICITY_TPL: TemplateMessage = [
     {
         label: '',
@@ -107,20 +108,20 @@ export const OA_NOTICE_COMMUNITY_USER_STOP_ELECTRICITY_TPL: TemplateMessage = [
 ];
 
 // 会议通知
-export const OA_MEETING_BROADCAST = '';
+export const OA_MEETING_BROADCAST = config.tpl.OA_MEETING_BROADCAST || '';
 
 // 流程审批通知
-export const OA_NOTICE_WORKFLOW_APPROVER = '';
+export const OA_NOTICE_WORKFLOW_APPROVER = config.tpl.OA_NOTICE_WORKFLOW_APPROVER || '';
 // 流程审批结果
-export const OA_NOTICE_WORKFLOW_RESULT = '';
+export const OA_NOTICE_WORKFLOW_RESULT = config.tpl.OA_NOTICE_WORKFLOW_RESULT || '';
 // 物业收费通知
-export const OA_NOTICE_OWNER_PROPERTY_FEE = '';
+export const OA_NOTICE_OWNER_PROPERTY_FEE = config.tpl.OA_NOTICE_OWNER_PROPERTY_FEE || '';
 // 物业费催缴
-export const OA_NOTICE_URGE_OWNER_PROPERTY_FEE = '';
+export const OA_NOTICE_URGE_OWNER_PROPERTY_FEE = config.tpl.OA_NOTICE_URGE_OWNER_PROPERTY_FEE || '';
 
 // 短信推送
 
 // 物业收费通知
-export const SMS_NOTICE_OWNER_PROPERTY_FEE = '';
+export const SMS_NOTICE_OWNER_PROPERTY_FEE = config.tpl.SMS_NOTICE_OWNER_PROPERTY_FEE || '';
 // 物业费催缴
-export const SMS_NOTICE_URGE_OWNER_PROPERTY_FEE = '';
+export const SMS_NOTICE_URGE_OWNER_PROPERTY_FEE = config.tpl.SMS_NOTICE_URGE_OWNER_PROPERTY_FEE || '';

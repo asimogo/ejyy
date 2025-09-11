@@ -2,9 +2,9 @@
 
 @font-face {
     font-family: 'cw-iconfont';
-    src: url('//at.alicdn.com/t/font_1993622_tjz04duqjho.woff2?t=1632747488318') format('woff2'),
-        url('//at.alicdn.com/t/font_1993622_tjz04duqjho.woff?t=1632747488318') format('woff'),
-        url('//at.alicdn.com/t/font_1993622_tjz04duqjho.ttf?t=1632747488318') format('truetype');
+    src: url('https://at.alicdn.com/t/font_1993622_tjz04duqjho.woff2?t=1632747488318') format('woff2'),
+        url('https://at.alicdn.com/t/font_1993622_tjz04duqjho.woff?t=1632747488318') format('woff'),
+        url('https://at.alicdn.com/t/font_1993622_tjz04duqjho.ttf?t=1632747488318') format('truetype');
 }
 
 .cw-icon {

@@ -5,7 +5,9 @@
         <cw-icon name="{{ icon }}" />
     </view>
 
-    <view class="cw-empty__description">{{ description }}</view>
+    <view class="cw-empty__description">
+        {{ description }}
+    </view>
     <view class="cw-empty__bottom">
         <slot></slot>
     </view>

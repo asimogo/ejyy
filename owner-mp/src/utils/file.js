@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024  All rights reserved.
+ * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: 
+ * | Author: contact@chowa.cn
  * +----------------------------------------------------------------------
  */
 
@@ -19,6 +19,13 @@ export function ext(filename) {
     if (pos != -1) {
         suffix = filename.substring(pos);
     }
+    
+    // 如果没有扩展名，默认为jpg
+    if (!suffix) {
+        suffix = '.jpg';
+    }
+    
+    console.log('文件扩展名解析:', filename, '->', suffix);
     return suffix;
 }
 
@@ -31,15 +38,16 @@ export function md5(filePath) {
                     const spark = new SMD5.ArrayBuffer();
                     spark.append(res.data);
                     const hexHash = spark.end(false);
+
                     resolve(hexHash);
                 } catch (error) {
-                    console.error('MD5计算失败:', error);
+                    console.log('MD5计算错误:', error);
                     reject(error);
                 }
             },
             fail: res => {
-                console.error('读取文件失败:', res);
-                reject(new Error('读取文件失败'));
+                console.log('读取文件失败:', res);
+                reject(res);
             }
         });
     });

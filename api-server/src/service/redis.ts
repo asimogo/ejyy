@@ -60,12 +60,16 @@ function sendToRs(data: RsData) {
 }
 
 function dispatch(channel: string, data: Object) {
-    switch (channel) {
-        case WS_NOTICE_TO_PROPERTY_COMPANY:
-            return wss.sendToPc(data as PcData);
+    try {
+        switch (channel) {
+            case WS_NOTICE_TO_PROPERTY_COMPANY:
+                return wss.sendToPc(data as PcData);
 
-        case WS_NOTICE_TO_REMOTE_SERVER:
-            return sendToRs(data as RsData);
+            case WS_NOTICE_TO_REMOTE_SERVER:
+                return sendToRs(data as RsData);
+        }
+    } catch (error) {
+        console.error('Redis Dispatch Error:', error);
     }
 }
 
@@ -89,9 +93,12 @@ export async function subscribe() {
             sub.subscribe(WS_NOTICE_TO_REMOTE_SERVER);
 
             sub.on('message', (channel: string, message: string) => {
-                const data = <PcData | RsData>JSON.parse(message);
-
-                dispatch(channel, data);
+                try {
+                    const data = <PcData | RsData>JSON.parse(message);
+                    dispatch(channel, data);
+                } catch (error) {
+                    console.error('Redis Message Handle Error:', error);
+                }
             });
         } catch (error) {
             console.error('Redis Subscribe Error:', error);

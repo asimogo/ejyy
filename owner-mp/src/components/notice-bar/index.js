@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024  All rights reserved.
+ * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: 
+ * | Author: contact@chowa.cn
  * +----------------------------------------------------------------------
  */
 
@@ -98,11 +98,17 @@ CwComponent({
             this.timer && clearTimeout(this.timer);
             this.timer = null;
             this.setData({
-                animationData: this.resetAnimation.translateX(this.wrapWidth).step().export()
+                animationData: this.resetAnimation
+                    .translateX(this.wrapWidth)
+                    .step()
+                    .export()
             });
             requestAnimationFrame(() => {
                 this.setData({
-                    animationData: this.animation.translateX(-this.contentWidth).step().export()
+                    animationData: this.animation
+                        .translateX(-this.contentWidth)
+                        .step()
+                        .export()
                 });
             });
             this.timer = setTimeout(() => {

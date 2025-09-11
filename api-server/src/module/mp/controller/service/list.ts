@@ -14,6 +14,7 @@ import { Action } from '~/types/action';
 import { SUCCESS } from '~/constant/code';
 import { TRUE } from '~/constant/status';
 import * as mpService from '~/service/map';
+import config from '~/config';
 
 interface RequestBody {
     page_num: number;
@@ -68,6 +69,7 @@ const MpServiceListAction = <Action>{
             .first();
 
         const res = await mpService.search({
+            keyword: mpService.keywordForSearch(category),
             boundary: `nearby(${setting ? setting.lat : '43.26624'},${
                 setting ? setting.lng : '117.54421'
             },${radius},1)`,
@@ -83,7 +85,8 @@ const MpServiceListAction = <Action>{
                 total: res.count,
                 page_amount: Math.ceil(res.count / page_size),
                 page_num,
-                page_size
+                page_size,
+                map_provider: mpService.getProviderName()
             }
         };
     }

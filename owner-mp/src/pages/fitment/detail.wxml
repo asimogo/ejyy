@@ -47,7 +47,9 @@
                             />
                         </view>
                         <view class="main-info">
-                            <view class="name">{{detail.returnInfo.real_name}}</view>
+                            <view class="name">
+                                {{detail.returnInfo.real_name}}
+                            </view>
                             <view class="department">
                                 {{detail.returnInfo.department ? detail.returnInfo.department : '-'}}
                                 {{detail.returnInfo.job ? detail.returnInfo.job : '-'}}

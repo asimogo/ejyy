@@ -43,7 +43,7 @@ function label(detail, fee) {
 function total(buildings, fee) {
     var ret = 0;
 
-    buildings.forEach(function (item) {
+    buildings.forEach(function(item) {
         var fen;
         var computed_by_area;
 

@@ -2,11 +2,11 @@
  * +----------------------------------------------------------------------
  * | 「e家宜业」
  * +----------------------------------------------------------------------
- * | Copyright (c) 2020-2024  All rights reserved.
+ * | Copyright (c) 2020-2024 https://www.chowa.cn All rights reserved.
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: 
+ * | Author: contact@chowa.cn
  * +----------------------------------------------------------------------
  */
 
@@ -188,54 +188,78 @@ CwPage({
                             method: 'get'
                         })
                         .then(({ data: tpls }) => {
-                            const values = Object.values(tpls);
-                            const keys = Object.keys(tpls);
+                            const entries = Object.entries(tpls); // [ [key, tpl], ... ]
+                            const keys = entries.map(([k]) => k);
+                            const values = entries.map(([, tpl]) => tpl);
+                            const validTpls = entries.filter(([, tpl]) => !!tpl).map(([, tpl]) => tpl);
                             const data = {};
-                            let gloablSetting = false;
 
-                            // 全局设置啊啊啊
-                            if (res.subscriptionsSetting.mainSwitch && res.subscriptionsSetting.itemSettings) {
-                                values.forEach((tpl, index) => {
-                                    if (tpl in res.subscriptionsSetting) {
-                                        data[keys[index]] =
-                                            res.subscriptionsSetting.itemSettings[tpl] === 'accept' ? 1 : 0;
-                                        gloablSetting = true;
-                                    } else {
-                                        data[keys[index]] = 0;
-                                    }
-                                });
-                            }
+                            // 默认置 0
+                            keys.forEach(k => (data[k] = 0));
 
-                            if (gloablSetting) {
+                            const settings = res.subscriptionsSetting || {};
+                            const itemSettings = settings.itemSettings || {};
+
+                            // 如果系统层已存在订阅设置（命中任意模板），直接按设置填充并发送
+                            let hasGlobal = false;
+                            entries.forEach(([key, tpl]) => {
+                                if (tpl && Object.prototype.hasOwnProperty.call(itemSettings, tpl)) {
+                                    data[key] = itemSettings[tpl] === 'accept' ? 1 : 0;
+                                    hasGlobal = true;
+                                }
+                            });
+
+                            if (hasGlobal || validTpls.length === 0) {
+                                // 没有可用模板或已从全局设置读取，直接提交
                                 send(data);
                             } else {
                                 wx.requestSubscribeMessage({
-                                    tmplIds: values,
-                                    success: res => {
-                                        values.forEach((tpl, index) => {
-                                            data[keys[index]] = res[tpl] === 'accept' ? 1 : 0;
+                                    tmplIds: validTpls,
+                                    success: subRes => {
+                                        entries.forEach(([key, tpl]) => {
+                                            if (tpl) data[key] = subRes[tpl] === 'accept' ? 1 : 0;
                                         });
                                         send(data);
                                     },
                                     fail: () => {
-                                        $toast.clear();
-                                        $notify({
-                                            type: 'danger',
-                                            message: '系统异常，请重试'
-                                        });
-                                        this.setData({ submiting: false });
+                                        // 订阅失败不阻断提交流程，按未订阅处理
+                                        send(data);
                                     }
                                 });
                             }
                         });
                 },
                 fail: () => {
-                    $toast.clear();
-                    $notify({
-                        type: 'danger',
-                        message: '系统异常，请重试'
-                    });
-                    this.setData({ submiting: false });
+                    // 获取系统订阅设置失败时，仍尽量继续流程
+                    utils
+                        .request({
+                            url: '/complain/tpl',
+                            method: 'get'
+                        })
+                        .then(({ data: tpls }) => {
+                            const entries = Object.entries(tpls);
+                            const keys = entries.map(([k]) => k);
+                            const validTpls = entries.filter(([, tpl]) => !!tpl).map(([, tpl]) => tpl);
+                            const data = {};
+                            keys.forEach(k => (data[k] = 0));
+
+                            if (validTpls.length === 0) {
+                                send(data);
+                            } else {
+                                wx.requestSubscribeMessage({
+                                    tmplIds: validTpls,
+                                    success: subRes => {
+                                        entries.forEach(([key, tpl]) => {
+                                            if (tpl) data[key] = subRes[tpl] === 'accept' ? 1 : 0;
+                                        });
+                                        send(data);
+                                    },
+                                    fail: () => {
+                                        send(data);
+                                    }
+                                });
+                            }
+                        });
                 }
             });
         });
