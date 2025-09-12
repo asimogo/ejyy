@@ -18,7 +18,7 @@ CwPage({
     data: {
         loading: false,
         redirect: null,
-        loginCode: undefined
+        phone: ''
     },
     onLoad(opts) {
         this.setData({
@@ -29,64 +29,42 @@ CwPage({
         if (wx.canIUse('hideHomeButton')) {
             wx.hideHomeButton();
         }
-
-        this.getLoginCode();
     },
-    getLoginCode() {
-        wx.login({
-            success: ({ code }) => {
-                this.setData({ loginCode: code });
-
-                if (!this.data.phone) {
-                    timer = setTimeout(() => {
-                        this.getLoginCode();
-                    }, 4.5 * 60 * 10000);
-                } else {
-                    this.clearGetLoginCode();
-                }
-            }
-        });
+    onPhoneInput(e) {
+        this.setData({ phone: e.detail });
     },
-    getPhoneNumber(e) {
-        const { loading } = this.data;
+    submit() {
+        const { loading, phone } = this.data;
 
-        if (loading) {
-            return;
-        }
+        if (loading) return;
 
-        if (e.detail.errMsg !== 'getPhoneNumber:ok') {
+        if (!/^1\d{10}$/.test(phone)) {
             return $notify({
                 customNavBar: true,
                 type: 'danger',
-                message: '登录失败，请重试'
+                message: '请输入正确的手机号'
             });
         }
 
-        this.setData({
-            loading: true
-        });
+        this.setData({ loading: true });
 
-        const { brand, model, system, platform } = this.data.systemInfo;
+        const { brand, model, system, platform } = this.data.systemInfo || {};
 
         utils
             .request({
-                url: '/user/mp_login',
+                url: '/user/phone_login',
                 method: 'post',
                 data: {
+                    phone,
                     brand,
                     model,
                     system,
-                    platform,
-                    code: this.data.loginCode,
-                    encryptedData: e.detail.encryptedData,
-                    iv: e.detail.iv
+                    platform
                 }
             })
             .then(
                 res => {
-                    this.setData({
-                        loading: false
-                    });
+                    this.setData({ loading: false });
 
                     this.bridge.updateData({
                         userInfo: res.data.userInfo,
@@ -102,9 +80,7 @@ CwPage({
                     });
                 },
                 res => {
-                    this.setData({
-                        loading: false
-                    });
+                    this.setData({ loading: false });
                     return $notify({
                         customNavBar: true,
                         type: 'danger',

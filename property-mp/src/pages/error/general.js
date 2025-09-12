@@ -13,6 +13,7 @@
 import $toast from '../../components/toast/toast';
 import $dialog from '../../components/dialog/dialog';
 import utils from '../../utils/index';
+import { getSystemInfoSync } from '../../components/common/utils';
 import * as config from '../../config';
 
 // wx.redirectTo({ url: `/pages/error/general?msg=微信授权登录失败 ${res.errMsg}` });
@@ -41,7 +42,7 @@ Page({
         });
 
         setTimeout(() => {
-            const { version, SDKVersion } = wx.getSystemInfoSync();
+            const { version, SDKVersion } = getSystemInfoSync();
 
             toast.clear();
 

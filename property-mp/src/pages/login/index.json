@@ -6,6 +6,7 @@
         "cw-notify": "../../components/notify",
         "cw-icon": "../../components/icon",
         "cw-loading": "../../components/loading",
-        "cw-button": "../../components/button"
+        "cw-button": "../../components/button",
+        "cw-field": "../../components/field"
     }
 }

@@ -26,9 +26,45 @@ export function nextTick(cb) {
 }
 let systemInfo;
 export function getSystemInfoSync() {
-    if (systemInfo == null) {
-        systemInfo = wx.getSystemInfoSync();
+    if (systemInfo != null) {
+        return systemInfo;
     }
+    let deviceInfo = {};
+    let windowInfo = {};
+    let appBaseInfo = {};
+
+    try {
+        if (typeof wx.getDeviceInfo === 'function') {
+            deviceInfo = wx.getDeviceInfo();
+        }
+    } catch (e) {}
+
+    try {
+        if (typeof wx.getWindowInfo === 'function') {
+            windowInfo = wx.getWindowInfo();
+        }
+    } catch (e) {}
+
+    try {
+        if (typeof wx.getAppBaseInfo === 'function') {
+            appBaseInfo = wx.getAppBaseInfo();
+        }
+    } catch (e) {}
+
+    systemInfo = {
+        ...deviceInfo,
+        ...windowInfo,
+        ...appBaseInfo
+    };
+
+    // 回退以确保兼容性和字段完整
+    if (systemInfo.statusBarHeight == null || systemInfo.windowWidth == null) {
+        try {
+            const legacy = wx.getSystemInfoSync();
+            systemInfo = { ...legacy, ...systemInfo };
+        } catch (e) {}
+    }
+
     return systemInfo;
 }
 export function addUnit(value) {

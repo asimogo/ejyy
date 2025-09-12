@@ -14,6 +14,7 @@ export { default as PcUserStateAction } from './controller/user/state';
 export { default as PcUserLogoutAction } from './controller/user/logout';
 export { default as PcUserInfoAction } from './controller/user/info';
 export { default as PcUserMpLoginAction } from './controller/user/mp_login';
+export { default as PcUserPhoneLoginAction } from './controller/user/phone_login';
 export { default as PcUserAccountLoginAction } from './controller/user/account_login';
 export { default as PcUserCaptchaAction } from './controller/user/captcha';
 export { default as PcUserResetAction } from './controller/user/reset';

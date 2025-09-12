@@ -25,12 +25,8 @@ function CwPage(cwOptions = {}) {
         //     formFields: [],
         //     formRule: {}
         // },
-        bridge: {
-            updateData: app.updateData,
-            getUserInfo: app.getUserInfo,
-            on: app.on,
-            off: app.off
-        },
+        // bridge 原为自由数据，开发者工具会深拷贝非简单值产生告警。
+        // 按照建议改为在 onLoad 开始处赋值，避免深拷贝函数对象。
         // 用户信息和住宅信息更新时调用
         // onGlobalDataUpdate: () => {},
         onReady() {
@@ -60,6 +56,13 @@ function CwPage(cwOptions = {}) {
             }
         },
         onLoad(opts) {
+            // 动态挂载 bridge，避免作为自由数据被深拷贝
+            this.bridge = {
+                updateData: app.updateData,
+                getUserInfo: app.getUserInfo,
+                on: app.on,
+                off: app.off
+            };
             if (typeof cwOptions.onLoad === 'function') {
                 cwOptions.onLoad.call(this, opts);
             }

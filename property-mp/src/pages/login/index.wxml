@@ -20,14 +20,20 @@
         <view class="txt">用心服务万千业主</view>
     </view>
 
-    <cw-button
-        type="info"
-        disabled="{{loading}}"
-        custom-class="btn"
-        block
-        open-type="getPhoneNumber"
-        bindgetphonenumber="getPhoneNumber"
-    >
+    <cw-field
+        label="手机号"
+        placeholder="请输入手机号"
+        placeholder-style="color:#999;"
+        type="number"
+        maxlength="11"
+        clearable
+        value="{{ phone }}"
+        bind:input="onPhoneInput"
+        border="{{ false }}"
+        custom-style="margin: 10px 0; background: rgba(255,255,255,0.96); border-radius: 12rpx; padding: 16rpx; box-shadow: 0 8rpx 24rpx rgba(0,0,0,0.12); position: relative; z-index: 5;"
+    />
+
+    <cw-button type="info" disabled="{{loading}}" custom-class="btn" block bind:tap="submit">
         <cw-loading type="spinner" size="32rpx" custom-class="loading" wx:if="{{loading}}" />
         <text>{{loading ? '登录中' : '登录'}}</text>
     </cw-button>
