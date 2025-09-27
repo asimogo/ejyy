@@ -2,17 +2,7 @@
     <WaterMark>
         <Header back />
 
-        <Result type="error" title="当前物业公司不支持微信支付物业费用" v-if="!postInfo.wechat_payment">
-            <div slot="extra">
-                <p>
-                    如需开通，请联系卓佤科技工作人员或发送邮件至发信至
-                    <a href="mailto:">技术支持</a>
-                    。
-                </p>
-            </div>
-        </Result>
-
-        <Card dis-hover :bordered="false" v-else>
+        <Card dis-hover :bordered="false">
             <Alert show-icon type="info">
                 物业费用计算时，小于一分的将被忽略计算，请知晓。
             </Alert>
@@ -121,7 +111,7 @@
  * +----------------------------------------------------------------------
  * | Licensed 未经授权禁止移除「e家宜业」和「卓佤科技」相关版权
  * +----------------------------------------------------------------------
- * | Author: 
+ * | Author:
  * +----------------------------------------------------------------------
  */
 

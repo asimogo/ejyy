@@ -27,6 +27,9 @@ module.exports = {
     },
     productionSourceMap: false,
     devServer: {
+        host: '0.0.0.0',
+        allowedHosts: ['.ts.net'],
+        disableHostCheck: true,
         open: true,
         historyApiFallback: true,
         proxy: {
